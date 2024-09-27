@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/eazed-forum.iml" filepath="$PROJECT_DIR$/eazed-forum.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eazed-forum-frontend.iml" filepath="$PROJECT_DIR$/eazed-forum-frontend.iml" />
+    </modules>
+  </component>
+</project>

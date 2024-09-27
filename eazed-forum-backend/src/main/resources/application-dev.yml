@@ -1,0 +1,22 @@
+spring:
+  mail:
+    host: smtp.163.com
+    username: 15327385997@163.com
+    password: FHGJMJIIDBIMQYVD
+  rabbitmq:
+    host: 192.168.227.132
+    username: admin
+    password: admin
+    virtual-host: /eazed-forum
+  security:
+    jwt:
+      key: my-secret
+      expire: 86400000
+  datasource:
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.227.132:3306/eazed_forum
+  data:
+    redis:
+      url: "redis://192.168.227.132:6379"
