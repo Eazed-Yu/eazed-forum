@@ -154,6 +154,10 @@ function userLogout() {
         }
       }
     }
+    .el-dropdown-link:hover {
+      cursor: pointer;
+    }
+
 
     .el-dropdown-link:hover .username,
     .el-dropdown-link:hover .email {

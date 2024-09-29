@@ -115,7 +115,7 @@ const handleClose = () => {
         </el-icon>
         <span><b>个人设置</b></span>
       </template>
-      <el-menu-item index="3-1">
+      <el-menu-item index="/index/user-setting">
         <el-icon size="20">
           <Bell/>
         </el-icon>
@@ -134,11 +134,12 @@ const handleClose = () => {
 <style lang="less" scoped>
 
 .aside-container {
+  background-color: var(--el-bg-color);
   height: 100%;
-
   .logo {
     height: 50px;
     transition: all 0.5s ease;
+
     .logo-lg {
       font-size: 20px;
       color: black;
@@ -149,7 +150,7 @@ const handleClose = () => {
 }
 
 .aside-container:not(.el-menu--collapse) {
-  width: 250px;
+  min-width: 220px;
 }
 
 .unselectable {
