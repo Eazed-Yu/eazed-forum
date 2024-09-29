@@ -9,6 +9,8 @@ public class Const {
     
     public static final int ORDER_CORS_FILTER = -102;
     
+    public static final String ATTR_USER_ID = "userId";
+    
     public static final String LOGIN_FAIL = "登录失败";
     
     public static final String FORBIDDEN = "禁止访问";

@@ -139,4 +139,9 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
         String key = Const.VERIFY_EMAIL_LIMIT + ip;
         return flowUtils.limitOnceCheck(key, 60);
     }
+    
+    @Override
+    public Account findAccountById(int id) {
+        return this.query().eq("id", id).one();
+    }
 }

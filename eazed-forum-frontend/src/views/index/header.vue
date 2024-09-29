@@ -1,0 +1,165 @@
+<script setup>
+import {useStore} from "@/store/index.js";
+import {Back, Fold, Message, Operation, Search} from "@element-plus/icons-vue";
+import {reactive} from "vue";
+import {logout} from "@/net/index.js";
+import router from "@/router/index.js";
+
+const store = useStore();
+
+const searchInput = reactive({
+  type: '1',
+  text: ''
+})
+
+function userLogout() {
+  logout(() => {
+    router.push('/')
+  })
+}
+</script>
+
+<template>
+  <div class="header-container">
+    <div class="header-left flex-box">
+      <el-icon class="icon" size="20" @click="store.collapseMenu">
+        <Fold/>
+      </el-icon>
+    </div>
+    <div class="header-center" style="width: 100%;max-width: 500px">
+      <el-input v-model="searchInput.text" placeholder="搜索...">
+        <template #prefix>
+          <el-icon>
+            <Search/>
+          </el-icon>
+        </template>
+        <template #append>
+          <el-select v-model="searchInput.type" style="width: 120px">
+            <el-option label="帖子广场" value="1"/>
+            <el-option label="校园活动" value="2"/>
+            <el-option label="表白墙" value="3"/>
+            <el-option label="教务通知" value="4"/>
+          </el-select>
+        </template>
+      </el-input>
+    </div>
+    <div class="header-right">
+      <el-dropdown class="unselectable">
+      <span class="el-dropdown-link flex-box">
+        <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                   style="pointer-events: none;"/>
+        <span class="profile">
+          <span class="username">{{ store.user.username }}</span>
+          <span class="email">{{ store.user.email }}</span>
+        </span>
+      </span>
+        <template #dropdown>
+          <el-dropdown-menu class="unselectable">
+            <el-dropdown-item>
+              <el-icon>
+                <Operation/>
+              </el-icon>
+              个人设置
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <el-icon>
+                <Message/>
+              </el-icon>
+              消息列表
+            </el-dropdown-item>
+            <el-dropdown-item divided @click="userLogout">
+              <el-icon>
+                <Back/>
+              </el-icon>
+              退出登入
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+    </div>
+  </div>
+</template>
+
+<style lang="less" scoped>
+.unselectable {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.flex-box {
+  display: flex;
+  align-items: center;
+}
+
+.header-container {
+  background-color: var(--el-bg-color);
+  border-bottom: solid 1px var(--el-border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 25px;
+  height: 100%;
+
+  .header-left {
+    height: 100%;
+
+    .icon:hover {
+      background-color: #ecf5ff;
+      cursor: pointer;
+    }
+
+    .flex-box {
+      height: 100%;
+    }
+
+    .icon {
+      width: 45px;
+      height: 100%;
+    }
+  }
+
+  .header-right {
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+
+    .el-dropdown-link {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      .el-avatar {
+        margin-right: 10px;
+      }
+
+      .profile {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        .username {
+          margin: 2px 2px;
+          font-size: 16px;
+          font-weight: bold;
+          line-height: 20px;
+          color: #333;
+        }
+
+        .email {
+          margin: 2px 2px;
+          font-size: 12px;
+          color: #999;
+        }
+      }
+    }
+
+    .el-dropdown-link:hover .username,
+    .el-dropdown-link:hover .email {
+      color: #409eff;
+    }
+  }
+}
+
+</style>

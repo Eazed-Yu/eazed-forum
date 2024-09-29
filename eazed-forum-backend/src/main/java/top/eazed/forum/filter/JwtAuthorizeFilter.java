@@ -1,6 +1,7 @@
 package top.eazed.forum.filter;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
+import top.eazed.forum.utils.Const;
 import top.eazed.forum.utils.JwtUtils;
 import jakarta.annotation.Resource;
 import jakarta.servlet.FilterChain;
@@ -34,7 +35,7 @@ public class JwtAuthorizeFilter extends OncePerRequestFilter {
                     new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            request.setAttribute("id", jwtUtils.toId(jwt));
+            request.setAttribute(Const.ATTR_USER_ID, jwtUtils.toId(jwt));
         }
         filterChain.doFilter(request, response);
     }

@@ -69,6 +69,7 @@ public class SecurityConfiguration {
         Account account = accountService.findAccountByNameOrEmail(principal.getUsername());
         String token = jwtUtils.createJwt(principal, account.getId(), account.getUsername());
         response.getWriter().write(RestBean.success(new AuthorizeVO(account.getUsername(), account.getRole(), token, jwtUtils.getExpireTime())).asJsonString());
+        
     }
     
     private void onLogoutSuccess(HttpServletRequest request,
@@ -83,6 +84,7 @@ public class SecurityConfiguration {
         } else {
             writer.write(RestBean.failure(400, "退出登入失败").asJsonString());
         }
+
     }
     
     private void onAccessDeny(HttpServletRequest request,

@@ -106,10 +106,10 @@ function logout(success, failure = defaultFailure) {
 }
 
 
-function unathorized() {
+function unauthorized() {
     const token = takeAccessToken()
     return !token;
 
 }
 
-export {login, logout, get, post, unathorized}
+export {login, logout, get, post, unauthorized}
