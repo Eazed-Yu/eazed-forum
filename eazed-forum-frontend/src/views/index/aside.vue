@@ -38,7 +38,7 @@ const handleClose = () => {
         </el-icon>
         <span><b>校园论坛</b></span>
       </template>
-      <el-menu-item index="1-1">
+      <el-menu-item index="/index/main">
         <el-icon size="20">
           <ChatDotSquare/>
         </el-icon>

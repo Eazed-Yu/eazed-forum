@@ -34,6 +34,11 @@ const router = createRouter({
                     name: 'user-setting',
                     component: () => import('@/views/settings/UserSetting.vue')
                 },
+                {
+                    path: 'main',
+                    name: 'main',
+                    component: () => import('@/views/index/main.vue')
+                }
             ]
         }
     ]

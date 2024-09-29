@@ -9,61 +9,65 @@ const registerTime = computed(() => new Date(store.user.registerTime).toLocaleSt
 </script>
 
 <template>
-  <div style="display: flex; justify-content: center;">
+  <div style="display: flex;">
     <div class="settings-left">
-      <card :icon="User"
-            description="在这里编辑您的个人信息，您可以在隐私设置中选择是否展示这些信息"
-            title="账号信息设置">
-        <el-form label-position="top" style="margin: 0 10px 10px 10px">
-          <el-form-item label="用户名">
-            <el-input></el-input>
-          </el-form-item>
-          <el-form-item label="性别">
-            <el-radio-group>
-              <el-radio value="1">男</el-radio>
-              <el-radio value="2">女</el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item label="手机号">
-            <el-input></el-input>
-          </el-form-item>
+      <div class="cards">
+        <card :icon="User"
+              class="card"
+              description="在这里编辑您的个人信息，您可以在隐私设置中选择是否展示这些信息"
+              title="账号信息设置">
+          <el-form label-position="top" style="margin: 0 10px 10px 10px">
+            <el-form-item label="用户名">
+              <el-input></el-input>
+            </el-form-item>
+            <el-form-item label="性别">
+              <el-radio-group>
+                <el-radio value="1">男</el-radio>
+                <el-radio value="2">女</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="手机号">
+              <el-input></el-input>
+            </el-form-item>
 
-          <el-form-item label="qq号">
-            <el-input></el-input>
-          </el-form-item>
-          <el-form-item label="微信号">
-            <el-input></el-input>
-          </el-form-item>
-          <el-form-item label="个人简介">
-            <el-input :rows="6" type="textarea"></el-input>
-          </el-form-item>
-          <div>
-            <el-button :icon="Select" type="success">保存用户信息</el-button>
-          </div>
-        </el-form>
-      </card>
-      <card :icon="Message"
-            description="您可以修改绑定的电子邮件地址" style="margin-top: 10px"
-            title="电子邮件设置">
-        <el-form label-position="top" style="margin: 0 10px 10px 10px">
-          <el-form-item label="电子邮件">
-            <el-input></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-row :gutter="10" style="width: 100%;">
-              <el-col :span="18">
-                <el-input placeholder="请输入验证码"/>
-              </el-col>
-              <el-col :span="6">
-                <el-button type="success">获取验证码</el-button>
-              </el-col>
-            </el-row>
-          </el-form-item>
-          <div>
-            <el-button :icon="Refresh" type="success">保存用户信息</el-button>
-          </div>
-        </el-form>
-      </card>
+            <el-form-item label="qq号">
+              <el-input></el-input>
+            </el-form-item>
+            <el-form-item label="微信号">
+              <el-input></el-input>
+            </el-form-item>
+            <el-form-item label="个人简介">
+              <el-input :rows="6" type="textarea"></el-input>
+            </el-form-item>
+            <div>
+              <el-button :icon="Select" type="success">保存用户信息</el-button>
+            </div>
+          </el-form>
+        </card>
+        <card :icon="Message"
+              class="card"
+              description="您可以修改绑定的电子邮件地址" style="margin-top: 10px"
+              title="电子邮件设置">
+          <el-form label-position="top" style="margin: 0 10px 10px 10px">
+            <el-form-item label="电子邮件">
+              <el-input></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-row :gutter="10" style="width: 100%;">
+                <el-col :span="18">
+                  <el-input placeholder="请输入验证码"/>
+                </el-col>
+                <el-col :span="6">
+                  <el-button type="success">获取验证码</el-button>
+                </el-col>
+              </el-row>
+            </el-form-item>
+            <div>
+              <el-button :icon="Refresh" type="success">保存用户信息</el-button>
+            </div>
+          </el-form>
+        </card>
+      </div>
     </div>
     <div class="settings-right">
       <div style="position: sticky;top: 20px">
@@ -93,16 +97,17 @@ const registerTime = computed(() => new Date(store.user.registerTime).toLocaleSt
 
 <style scoped>
 .settings-left {
-  flex: 2;
-  min-width: 450px;
-  max-width: 500px;
+  flex: 3;
+  display: flex;
   margin: 20px;
+  justify-content: center;
 }
 
 .settings-right {
   flex: 1;
   margin: 20px;
-  max-width: 300px;
+
+
   .user-name {
     font-size: 20px;
     font-weight: bold;
