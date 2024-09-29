@@ -150,7 +150,7 @@ const handleClose = () => {
 }
 
 .aside-container:not(.el-menu--collapse) {
-  min-width: 220px;
+  width: 220px;
 }
 
 .unselectable {
