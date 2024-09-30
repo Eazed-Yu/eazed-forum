@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import top.eazed.forum.entity.BaseData;
 
 import java.util.Date;
@@ -13,6 +14,7 @@ import java.util.Date;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @TableName("db_account") // 配置表名
 public class Account implements BaseData {
     @TableId(type = IdType.AUTO) // 配置主键自增
@@ -27,5 +29,5 @@ public class Account implements BaseData {
     String role;
 
     Date registerTime;
-
+    
 }
