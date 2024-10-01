@@ -123,7 +123,7 @@ const isBaseFormChanged = computed(() => {
 </script>
 
 <template>
-  <div style="display: flex;">
+  <div style="display: flex;max-width: 950px;margin: auto">
     <div class="settings-left">
       <div class="cards">
         <card :icon="User"
@@ -174,7 +174,7 @@ const isBaseFormChanged = computed(() => {
             </el-form-item>
             <el-form-item prop="code">
               <el-row :gutter="10" style="width: 100%;">
-                <el-col :span="18">
+                <el-col :span="12">
                   <el-input v-model="emailFrom.code" placeholder="请输入验证码"/>
                 </el-col>
                 <el-col :span="6">
@@ -223,7 +223,7 @@ const isBaseFormChanged = computed(() => {
 
 <style scoped>
 .settings-left {
-  flex: 3;
+  flex: 2;
   display: flex;
   margin: 20px;
   justify-content: center;
@@ -232,7 +232,6 @@ const isBaseFormChanged = computed(() => {
 .settings-right {
   flex: 1;
   margin: 20px;
-
 
   .user-name {
     font-size: 20px;
