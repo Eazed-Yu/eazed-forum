@@ -1,12 +1,11 @@
 package top.eazed.forum.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import top.eazed.forum.entity.dto.Account;
-import top.eazed.forum.entity.vo.request.ConfirmResetVO;
-import top.eazed.forum.entity.vo.request.EmailRegisterVO;
-import top.eazed.forum.entity.vo.request.EmailResetVO;
+import top.eazed.forum.entity.vo.request.*;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import top.eazed.forum.entity.vo.request.ModifyEmailVO;
 
 
 public interface AccountService extends IService<Account>, UserDetailsService {
@@ -23,4 +22,6 @@ public interface AccountService extends IService<Account>, UserDetailsService {
     Account findAccountById (int id);
     
     String modifyEmail(int id, ModifyEmailVO vo);
+    
+    String changePassword(int id, @Valid ChangePasswordVO vo, HttpServletRequest request);
 }

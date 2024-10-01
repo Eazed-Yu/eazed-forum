@@ -54,12 +54,12 @@ public class JwtUtils {
         }
         Date now = new Date();
         long expire = Math.max(time.getTime() - now.getTime(), 0);
-        template.opsForValue().set(Const.JWT_BLACK_LIST + uuid, "", expire, TimeUnit.MILLISECONDS);
+        template.opsForValue().set(Const.JWT_BLOCK_LIST + uuid, "", expire, TimeUnit.MILLISECONDS);
         return true;
     }
     
     private boolean isInvalidToken(String uuid) {
-        return Boolean.TRUE.equals(template.hasKey(Const.JWT_BLACK_LIST + uuid));
+        return Boolean.TRUE.equals(template.hasKey(Const.JWT_BLOCK_LIST + uuid));
     }
     
     

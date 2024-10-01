@@ -2,8 +2,9 @@
 import {useStore} from "@/store/index.js";
 import {Back, Fold, Message, Operation, Search} from "@element-plus/icons-vue";
 import {reactive} from "vue";
-import {logout} from "@/net/index.js";
+import {deleteAccessToken, logout} from "@/net/index.js";
 import router from "@/router/index.js";
+import {ElMessage} from "element-plus";
 
 const store = useStore();
 
@@ -15,6 +16,9 @@ const searchInput = reactive({
 function userLogout() {
   logout(() => {
     router.push('/')
+  }, (message) => {
+    ElMessage.error(message)
+    deleteAccessToken()
   })
 }
 </script>

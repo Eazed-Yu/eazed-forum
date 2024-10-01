@@ -1,12 +1,14 @@
 package top.eazed.forum.controller;
 
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import top.eazed.forum.entity.RestBean;
 import top.eazed.forum.entity.dto.Account;
 import top.eazed.forum.entity.dto.AccountDetails;
 import top.eazed.forum.entity.vo.request.AccountDetailsSaveVO;
+import top.eazed.forum.entity.vo.request.ChangePasswordVO;
 import top.eazed.forum.entity.vo.request.ModifyEmailVO;
 import top.eazed.forum.entity.vo.response.AccountDetailsVO;
 import top.eazed.forum.entity.vo.response.AccountVO;
@@ -51,6 +53,16 @@ public class AccountController {
     public RestBean<Void> modifyEmail(@RequestAttribute(Const.ATTR_USER_ID) int id,
                                       @RequestBody @Valid ModifyEmailVO vo) {
         String message = service.modifyEmail(id, vo);
+        if (message != null) return RestBean.failure(400, message);
+        return RestBean.success();
+    }
+    
+    @PostMapping("/change-password")
+    public RestBean<Void> changePassword(@RequestAttribute(Const.ATTR_USER_ID) int id,
+                                         @RequestBody @Valid ChangePasswordVO vo,
+                                         HttpServletRequest request
+    ) {
+        String message = service.changePassword(id, vo, request);
         if (message != null) return RestBean.failure(400, message);
         return RestBean.success();
     }

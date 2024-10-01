@@ -2,11 +2,9 @@ package top.eazed.forum.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.servlet.http.HttpServletRequest;
 import top.eazed.forum.entity.dto.Account;
-import top.eazed.forum.entity.vo.request.ConfirmResetVO;
-import top.eazed.forum.entity.vo.request.EmailRegisterVO;
-import top.eazed.forum.entity.vo.request.EmailResetVO;
-import top.eazed.forum.entity.vo.request.ModifyEmailVO;
+import top.eazed.forum.entity.vo.request.*;
 import top.eazed.forum.mapper.AccountMapper;
 import top.eazed.forum.service.AccountService;
 import top.eazed.forum.utils.Const;
@@ -19,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import top.eazed.forum.utils.JwtUtils;
 
 import java.util.Date;
 import java.util.Map;
@@ -39,6 +38,9 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     
     @Resource
     PasswordEncoder passwordEncoder;
+    
+    @Resource
+    JwtUtils jwtUtils;
     
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -74,8 +76,8 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
                         "code", code,
                         "ip", ip
                 );
-
-
+                
+                
                 amqpTemplate.convertAndSend("mail", data);
                 stringRedisTemplate.opsForValue()
                         .set(Const.VERIFY_EMAIL_DATA + email, String.valueOf(code), 3, TimeUnit.MINUTES);
@@ -95,7 +97,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
         if (this.existsAccountByUsername(vo.getUsername())) return "此用户名已经注册";
         String password = passwordEncoder.encode(vo.getPassword());
         Account account = new Account(null, vo.getUsername(), password, email, "user", new Date());
-
+        
         if (this.save(account)) {
             stringRedisTemplate.delete(Const.VERIFY_EMAIL_DATA + email);
             return null;
@@ -132,6 +134,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     private boolean existsAccountByEmail(String email) {
         return baseMapper.exists(Wrappers.<Account>query().eq("email", email));
     }
+    
     private boolean existsAccountByUsername(String username) {
         return baseMapper.exists(Wrappers.<Account>query().eq("username", username));
     }
@@ -158,5 +161,21 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
         // 更新邮箱
         boolean update = this.update().eq("id", id).set("email", vo.getEmail()).update();
         return update ? null : "修改失败";
+    }
+    
+    @Override
+    public String changePassword(int id, ChangePasswordVO vo, HttpServletRequest request) {
+        // 如果原密码错误
+        Account account = this.findAccountById(id);
+        if (!passwordEncoder.matches(vo.getOrigin_password(), account.getPassword())) return "原密码错误";
+        // 更新密码
+        String password = passwordEncoder.encode(vo.getPassword());
+        boolean update = this.update().eq("id", id).set("password", password).update();
+        if (!update) {
+            return "修改失败";
+        }
+        // 使用户下线
+        jwtUtils.invalidateJwt(request.getHeader("Authorization"));
+        return null;
     }
 }

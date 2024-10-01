@@ -13,7 +13,7 @@ import top.eazed.forum.entity.BaseData;
 @TableName("db_account_details")
 public class AccountDetails implements BaseData {
     @TableId
-    int id;
+    Integer id;
     int gender;
     String phone;
     String qq;

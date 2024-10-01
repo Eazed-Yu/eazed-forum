@@ -121,7 +121,7 @@ const handleClose = () => {
         </el-icon>
         <span>个人信息</span>
       </el-menu-item>
-      <el-menu-item index="3-2">
+      <el-menu-item index="/index/privacy-setting">
         <el-icon size="20">
           <Bell/>
         </el-icon>

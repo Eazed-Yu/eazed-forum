@@ -1,11 +1,12 @@
 <script setup>
 
 import Card from "@/components/Card.vue";
-import {Message, Select, User,} from "@element-plus/icons-vue";
+import {CircleCheck, Message, Select, User,} from "@element-plus/icons-vue";
 import {useStore} from "@/store/index.js";
 import {computed, reactive, ref} from "vue";
 import {get, post} from "@/net/index.js";
 import {ElMessage} from "element-plus";
+
 const store = useStore()
 const registerTime = computed(() => new Date(store.user.registerTime).toLocaleString())
 
@@ -85,11 +86,13 @@ get('api/user/details', data => {
   baseForm.qq = data.qq
   baseForm.wechat = data.wechat
   baseForm.description = data.description
+  description.value = data.description
   loading.form = false
   emailFrom.email = store.user.email
 })
 
 const codeTime = ref(0)
+
 function askCode() {
   if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailFrom.email)) {
     ElMessage.error('请输入正确的电子邮件')
@@ -110,15 +113,6 @@ function askCode() {
   }
 }
 
-const isEmailChanged = computed(() => {
-  return emailFrom.email !== store.user.email;
-});
-
-const initialBaseForm = reactive({ ...baseForm });
-
-const isBaseFormChanged = computed(() => {
-  return JSON.stringify(baseForm) !== JSON.stringify(initialBaseForm);
-});
 
 </script>
 
@@ -131,7 +125,8 @@ const isBaseFormChanged = computed(() => {
               v-loading="loading.form"
               description="在这里编辑您的个人信息，您可以在隐私设置中选择是否展示这些信息"
               title="账号信息设置">
-          <el-form ref="baseFormRef" :model="baseForm" :rules="rules" label-position="top" style="margin: 0 10px 10px 10px">
+          <el-form ref="baseFormRef" :model="baseForm" :rules="rules" label-position="top"
+                   style="margin: 0 10px 10px 10px">
             <el-form-item label="用户名">
               <el-input v-model="baseForm.username"></el-input>
             </el-form-item>
@@ -148,7 +143,7 @@ const isBaseFormChanged = computed(() => {
             <el-form-item label="qq号" prop="qq">
               <el-input v-model="baseForm.qq" maxlength="13"/>
             </el-form-item>
-            <el-form-item label="微信号" prop="wechat" >
+            <el-form-item label="微信号" prop="wechat">
               <el-input v-model="baseForm.wechat" maxlength="20"/>
             </el-form-item>
             <el-form-item label="个人简介" prop="description">
@@ -156,11 +151,12 @@ const isBaseFormChanged = computed(() => {
             </el-form-item>
             <div>
               <el-button
-                  :disabled="isBaseFormChanged"
                   :icon="Select"
                   :loading="loading.base"
                   type="success"
-                  @click="saveDetails">保存用户信息</el-button>
+                  style="margin-top: 20px"
+                  @click="saveDetails">保存用户信息
+              </el-button>
             </div>
           </el-form>
         </card>
@@ -168,19 +164,24 @@ const isBaseFormChanged = computed(() => {
               class="card"
               description="您可以修改绑定的电子邮件地址" style="margin-top: 10px"
               title="电子邮件设置">
-          <el-form ref="emailFormRef" :model="emailFrom" :rules="rules" label-position="top" style="margin: 0 10px 10px 10px">
+          <el-form ref="emailFormRef" :model="emailFrom" :rules="rules" label-position="top"
+                   style="margin: 0 10px 10px 10px">
             <el-form-item label="电子邮件" prop="email">
               <el-input v-model="emailFrom.email"/>
             </el-form-item>
             <el-form-item prop="code">
-              <el-row :gutter="10" style="width: 100%;">
-                <el-col :span="12">
-                  <el-input v-model="emailFrom.code" placeholder="请输入验证码"/>
+              <el-row style="width: 100%;">
+                <el-col :span="16">
+                  <el-input v-model="emailFrom.code" placeholder="验证码" type="text">
+                    <template #prefix>
+                      <el-icon>
+                        <CircleCheck/>
+                      </el-icon>
+                    </template>
+                  </el-input>
                 </el-col>
-                <el-col :span="6">
-                  <el-button
-                      :disabled="codeTime > 0 || !isEmailChanged" type="success"
-                      @click="askCode">
+                <el-col :span="8" style="text-align: right">
+                  <el-button :disabled="codeTime > 0" type="success" @click="askCode">
                     {{ codeTime ? `请稍后：${codeTime}s` : '获取验证码' }}
                   </el-button>
                 </el-col>
@@ -188,10 +189,11 @@ const isBaseFormChanged = computed(() => {
             </el-form-item>
             <div>
               <el-button
-                  :disabled="!isEmailChanged"
                   :icon="Select"
+                  style="margin-top: 20px"
                   type="success"
-                  @click="modifyEmail">保存用户信息</el-button>
+                  @click="modifyEmail">保存用户信息
+              </el-button>
             </div>
           </el-form>
         </card>
@@ -203,16 +205,16 @@ const isBaseFormChanged = computed(() => {
           <div style="text-align: center;padding: 5px 15px 15px 15px">
             <div>
               <el-avatar size="large" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"/>
-              <div class="user-name">你好，{{store.user.username}}</div>
+              <div class="user-name">你好，{{ store.user.username }}</div>
             </div>
             <el-divider style="margin: 10px 0"/>
             <div class="user-introduction">
-              {{description || "这个人很懒，什么都没留下"}}
+              {{ description || "这个人很懒，什么都没留下" }}
             </div>
           </div>
         </card>
         <card style="margin-top: 14px">
-          <div style="color: var(--el-text-color-primary);font-weight: bold;">用户注册时间：{{registerTime}}</div>
+          <div style="color: var(--el-text-color-primary);font-weight: bold;">用户注册时间：{{ registerTime }}</div>
           <div style="color: var(--el-text-color-secondary)">欢迎加入我们的学习论坛</div>
         </card>
       </div>
@@ -239,6 +241,7 @@ const isBaseFormChanged = computed(() => {
     color: var(--el-text-color-primary);
     margin-top: 10px;
   }
+
   .user-introduction {
     font-size: 14px;
     color: var(--el-text-color-secondary);
