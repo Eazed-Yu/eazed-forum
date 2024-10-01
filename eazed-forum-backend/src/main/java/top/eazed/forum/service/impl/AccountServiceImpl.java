@@ -6,6 +6,7 @@ import top.eazed.forum.entity.dto.Account;
 import top.eazed.forum.entity.vo.request.ConfirmResetVO;
 import top.eazed.forum.entity.vo.request.EmailRegisterVO;
 import top.eazed.forum.entity.vo.request.EmailResetVO;
+import top.eazed.forum.entity.vo.request.ModifyEmailVO;
 import top.eazed.forum.mapper.AccountMapper;
 import top.eazed.forum.service.AccountService;
 import top.eazed.forum.utils.Const;
@@ -143,5 +144,19 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     @Override
     public Account findAccountById(int id) {
         return this.query().eq("id", id).one();
+    }
+    
+    @Override
+    public String modifyEmail(int id, ModifyEmailVO vo) {
+        String code = stringRedisTemplate.opsForValue().get(Const.VERIFY_EMAIL_DATA + vo.getEmail());
+        if (code == null) return "请获取验证码";
+        if (!code.equals(vo.getCode())) return "验证码错误";
+        // 删除旧的验证码
+        stringRedisTemplate.delete(Const.VERIFY_EMAIL_DATA + vo.getEmail());
+        // 查找邮箱是否已经注册
+        if (this.existsAccountByEmail(vo.getEmail())) return "此邮箱已经注册";
+        // 更新邮箱
+        boolean update = this.update().eq("id", id).set("email", vo.getEmail()).update();
+        return update ? null : "修改失败";
     }
 }

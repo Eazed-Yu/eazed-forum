@@ -1,11 +1,13 @@
 package top.eazed.forum.controller;
 
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import top.eazed.forum.entity.RestBean;
 import top.eazed.forum.entity.dto.Account;
 import top.eazed.forum.entity.dto.AccountDetails;
 import top.eazed.forum.entity.vo.request.AccountDetailsSaveVO;
+import top.eazed.forum.entity.vo.request.ModifyEmailVO;
 import top.eazed.forum.entity.vo.response.AccountDetailsVO;
 import top.eazed.forum.entity.vo.response.AccountVO;
 import top.eazed.forum.service.AccountDetailsService;
@@ -43,5 +45,13 @@ public class AccountController {
         } else {
             return RestBean.failure(400, "用户名已存在");
         }
+    }
+    
+    @PostMapping("/modify-email")
+    public RestBean<Void> modifyEmail(@RequestAttribute(Const.ATTR_USER_ID) int id,
+                                      @RequestBody @Valid ModifyEmailVO vo) {
+        String message = service.modifyEmail(id, vo);
+        if (message != null) return RestBean.failure(400, message);
+        return RestBean.success();
     }
 }

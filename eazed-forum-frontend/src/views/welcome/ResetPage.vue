@@ -66,7 +66,7 @@ const form = reactive({
 })
 
 
-const rule = {
+const rules = {
   email: [
     {required: true, message: '请输入电子邮件', trigger: ['blur', 'change']},
     {type: 'email', message: '请输入正确的电子邮件', trigger: ['blur', 'change']}
@@ -112,7 +112,7 @@ const isEmailValid = computed(() => {
           <div style="font-size: 14px;color: grey">请输入您的电子邮件地址</div>
         </div>
         <div style="margin: 40px 50px">
-          <el-form ref="formRef" :model="form" :rules="rule">
+          <el-form ref="formRef" :model="form" :rules="rules">
             <el-form-item prop="email">
               <el-input v-model="form.email" placeholder="电子邮件" type="text">
                 <template #prefix>
@@ -155,7 +155,7 @@ const isEmailValid = computed(() => {
           <div style="font-size: 14px;color: grey">请输入您的新密码</div>
         </div>
         <div style="margin: 40px 50px">
-          <el-form ref="formRef" :model="form" :rules="rule">
+          <el-form ref="formRef" :model="form" :rules="rules">
             <el-form-item prop="password">
               <el-input v-model="form.password" placeholder="密码" type="password">
                 <template #prefix>

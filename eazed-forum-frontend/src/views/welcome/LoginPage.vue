@@ -12,7 +12,7 @@ const form = reactive({
 })
 
 
-const rule = {
+const rules = {
   username: [
     {required: true, message: "请输入用户名", trigger: 'blur'},
   ],
@@ -39,7 +39,7 @@ function userLogin() {
       <div style="font-size: 14px;color: grey">请输入账号和密码</div>
     </div>
     <div style="margin: 50px 20px">
-      <el-form ref="formRef" :model="form" :rules="rule">
+      <el-form ref="formRef" :model="form" :rules="rules">
         <el-form-item prop="username">
           <el-input v-model="form.username" placeholder="用户名/邮箱" type="text">
             <template #prefix>

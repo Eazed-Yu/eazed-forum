@@ -1,7 +1,7 @@
 <script setup>
 
 import Card from "@/components/Card.vue";
-import {Message, Refresh, Select, User} from "@element-plus/icons-vue";
+import {Message, Select, User,} from "@element-plus/icons-vue";
 import {useStore} from "@/store/index.js";
 import {computed, reactive, ref} from "vue";
 import {get, post} from "@/net/index.js";
@@ -26,18 +26,9 @@ const emailFrom = reactive({
   email: '',
   code: ''
 })
-const validateUsername = (rule, value, callback) => {
-  if (value === '') {
-    callback(new Error('请输入用户名'))
-  } else if (!/^[a-zA-Z0-9\u4e00-\u9fa5]+$/.test(value)) {
-    callback(new Error('用户名只能包含字母、数字和汉字'))
-  } else {
-    callback()
-  }
-}
 const rules = {
   username: [
-    {validator: validateUsername, trigger: ['blur', 'change']},
+    {required: true, message: '请输入用户名', trigger: ['blur', 'change']},
     {min: 1, max: 10, message: '用户名长度在 1 到 10 个字符', trigger: 'blur'}
   ],
   email: [
@@ -49,6 +40,7 @@ const rules = {
     {min: 6, max: 6, message: '验证码长度为6位', trigger: ['blur', 'change']}
   ]
 }
+
 
 function saveDetails() {
   baseFormRef.value.validate((valid) => {
@@ -72,6 +64,19 @@ const loading = reactive({
   base: false
 })
 
+function modifyEmail() {
+  emailFormRef.value.validate((valid) => {
+    if (valid) {
+      post('/api/user/modify-email', emailFrom, () => {
+        ElMessage.success('修改成功')
+        store.user.email = emailFrom.email
+      }, message => {
+        ElMessage.error(message)
+      })
+    }
+  })
+}
+
 
 get('api/user/details', data => {
   baseForm.username = store.user.username
@@ -81,7 +86,40 @@ get('api/user/details', data => {
   baseForm.wechat = data.wechat
   baseForm.description = data.description
   loading.form = false
+  emailFrom.email = store.user.email
 })
+
+const codeTime = ref(0)
+function askCode() {
+  if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailFrom.email)) {
+    ElMessage.error('请输入正确的电子邮件')
+  } else {
+    get(`/api/auth/ask-code?email=${emailFrom.email}&type=modify`, () => {
+      ElMessage.success('验证码已发送至' + emailFrom.email + '，请查收')
+      codeTime.value = 60
+      const intervalId = setInterval(() => {
+        codeTime.value--
+        if (codeTime.value === 0) {
+          clearInterval(intervalId)
+        }
+      }, 1000)
+    }, (message) => {
+      ElMessage.error(message)
+      codeTime.value = 0
+    })
+  }
+}
+
+const isEmailChanged = computed(() => {
+  return emailFrom.email !== store.user.email;
+});
+
+const initialBaseForm = reactive({ ...baseForm });
+
+const isBaseFormChanged = computed(() => {
+  return JSON.stringify(baseForm) !== JSON.stringify(initialBaseForm);
+});
+
 </script>
 
 <template>
@@ -110,14 +148,19 @@ get('api/user/details', data => {
             <el-form-item label="qq号" prop="qq">
               <el-input v-model="baseForm.qq" maxlength="13"/>
             </el-form-item>
-            <el-form-item label="微信号" prop="wechat">
+            <el-form-item label="微信号" prop="wechat" >
               <el-input v-model="baseForm.wechat" maxlength="20"/>
             </el-form-item>
             <el-form-item label="个人简介" prop="description">
               <el-input v-model="baseForm.description" :rows="6" maxlength="200" type="textarea"/>
             </el-form-item>
             <div>
-              <el-button :icon="Select" :loading="loading.base" type="success" @click="saveDetails">保存用户信息</el-button>
+              <el-button
+                  :disabled="isBaseFormChanged"
+                  :icon="Select"
+                  :loading="loading.base"
+                  type="success"
+                  @click="saveDetails">保存用户信息</el-button>
             </div>
           </el-form>
         </card>
@@ -135,12 +178,21 @@ get('api/user/details', data => {
                   <el-input v-model="emailFrom.code" placeholder="请输入验证码"/>
                 </el-col>
                 <el-col :span="6">
-                  <el-button type="success">获取验证码</el-button>
+                  <el-button
+                      :disabled="codeTime > 0 || !isEmailChanged" type="success"
+                      @click="askCode">
+                    {{ codeTime ? `请稍后：${codeTime}s` : '获取验证码' }}
+                  </el-button>
                 </el-col>
               </el-row>
             </el-form-item>
             <div>
-              <el-button :icon="Refresh" type="success">保存用户信息</el-button>
+              <el-button
+                  :disabled="!isFormChanged"
+                  :icon="Select"
+                  :loading="loading.base"
+                  type="success"
+                  @click="saveDetails">保存用户信息</el-button>
             </div>
           </el-form>
         </card>

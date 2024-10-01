@@ -34,6 +34,9 @@ public class MailQueueListener {
             case "reset" -> createMessage("重置您的密码",
                     email + "您好！\n" + "您的验证码为：" + code + "有效时间为3分钟。", email
             );
+            case "modify" -> createMessage("修改您的邮箱",
+                    email + "您好！\n" + "您的验证码为：" + code + "有效时间为3分钟。", email
+            );
             default -> null;
         };
         if (message == null) return;

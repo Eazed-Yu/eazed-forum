@@ -6,6 +6,7 @@ import top.eazed.forum.entity.vo.request.ConfirmResetVO;
 import top.eazed.forum.entity.vo.request.EmailRegisterVO;
 import top.eazed.forum.entity.vo.request.EmailResetVO;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import top.eazed.forum.entity.vo.request.ModifyEmailVO;
 
 
 public interface AccountService extends IService<Account>, UserDetailsService {
@@ -20,4 +21,6 @@ public interface AccountService extends IService<Account>, UserDetailsService {
     String resetEmailAccountPassword(EmailResetVO vo);
     
     Account findAccountById (int id);
+    
+    String modifyEmail(int id, ModifyEmailVO vo);
 }

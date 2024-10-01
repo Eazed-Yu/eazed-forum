@@ -26,7 +26,7 @@ public class AuthorizeController {
     
     @GetMapping("/ask-code")
     public RestBean<Void> askVerifyCode(@RequestParam @Email String email,
-                                  @RequestParam @Pattern(regexp = "(register|reset)") String type,
+                                  @RequestParam @Pattern(regexp = "(register|reset|modify)") String type,
                                   HttpServletRequest request) {
         return messageHandle(() -> service.registerEmailVerifyCode(type, email, request.getRemoteAddr()));
     }

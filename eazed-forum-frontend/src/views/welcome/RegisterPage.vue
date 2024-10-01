@@ -27,7 +27,7 @@ const validateUsername = (rule, value, callback) => {
   }
 }
 
-const rule = {
+const rules = {
   username: [
     {validator: validateUsername, trigger: ['blur', 'change']},
     {min: 1, max: 10, message: '用户名长度在 1 到 10 个字符', trigger: 'blur'}
@@ -107,7 +107,7 @@ function register() {
       <div style="font-size: 14px; color: grey">请输入账号和密码</div>
     </div>
     <div style="margin: 50px 20px">
-      <el-form ref="formRef" :model="form" :rules="rule">
+      <el-form ref="formRef" :model="form" :rules="rules">
         <el-form-item prop="username">
           <el-input v-model="form.username" maxlength="10" placeholder="用户名" type="text">
             <template #prefix>
