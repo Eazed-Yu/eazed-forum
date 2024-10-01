@@ -188,11 +188,10 @@ const isBaseFormChanged = computed(() => {
             </el-form-item>
             <div>
               <el-button
-                  :disabled="!isFormChanged"
+                  :disabled="!isEmailChanged"
                   :icon="Select"
-                  :loading="loading.base"
                   type="success"
-                  @click="saveDetails">保存用户信息</el-button>
+                  @click="modifyEmail">保存用户信息</el-button>
             </div>
           </el-form>
         </card>
