@@ -142,9 +142,9 @@ function avatarUploadSuccess(response) {
 <template>
   <div style="display: flex;max-width: 950px;margin: auto">
     <div class="settings-left">
-      <div class="cards">
+      <div class="cards unselectable">
         <card :icon="User"
-              style="  border-radius: 15px;border: solid 1px var(--el-border-color);"
+              style="  border-radius: 15px;border: solid 2px var(--el-border-color);"
               class="card"
               v-loading="loading.form"
               description="在这里编辑您的个人信息，您可以在隐私设置中选择是否展示这些信息"
@@ -187,7 +187,7 @@ function avatarUploadSuccess(response) {
         <card :icon="Message"
               description="您可以修改绑定的电子邮件地址"
               class="card"
-              style="border-radius: 15px;border: solid 1px var(--el-border-color);margin-top: 20px"
+              style="border-radius: 15px;border: solid 2px var(--el-border-color);margin-top: 20px"
               title="电子邮件设置">
           <el-form ref="emailFormRef" :model="emailFrom" :rules="rules" label-position="top"
                    style="margin: 0 10px 10px 10px">
@@ -224,9 +224,9 @@ function avatarUploadSuccess(response) {
         </card>
       </div>
     </div>
-    <div class="settings-right">
+    <div class="settings-right unselectable">
       <div style="position: sticky;top: 20px">
-        <card style="  border-radius: 15px;border: solid 1px var(--el-border-color);">
+        <card style="  border-radius: 15px;border: solid 2px var(--el-border-color);">
           <div style="text-align: center;padding: 5px 15px 15px 15px">
             <div>
               <el-avatar :src="store.avatarUrl" size="large"/>

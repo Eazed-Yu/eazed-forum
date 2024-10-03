@@ -24,7 +24,7 @@ defineProps({
 
 </template>
 
-<style scoped>
+<style lang="less" scoped>
 .card {
 
   min-height: 20px;
@@ -47,7 +47,6 @@ defineProps({
     }
 
   }
-
-
 }
+
 </style>

@@ -1,10 +1,11 @@
 <script setup>
 import {useStore} from "@/store/index.js";
-import {Back, Fold, Message, Operation, Search} from "@element-plus/icons-vue";
+import {Back, Fold, Message, Operation, Search, Sunny} from "@element-plus/icons-vue";
 import {reactive} from "vue";
 import {deleteAccessToken, logout} from "@/net/index.js";
 import router from "@/router/index.js";
 import {ElMessage} from "element-plus";
+import {toggleTheme} from "@/theme";
 
 const store = useStore();
 
@@ -48,6 +49,12 @@ function userLogout() {
       </el-input>
     </div>
     <div class="header-right">
+      <div class="theme unselectable" @click="toggleTheme">
+        <el-icon size="30" style="align-self: center">
+          <Sunny/>
+        </el-icon>
+        <div style="font-size: 10px">切换主题</div>
+      </div>
       <el-dropdown class="unselectable">
       <span class="el-dropdown-link flex-box">
         <el-avatar :src="store.avatarUrl"
@@ -85,12 +92,7 @@ function userLogout() {
 </template>
 
 <style lang="less" scoped>
-.unselectable {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
+
 
 .flex-box {
   display: flex;
@@ -125,10 +127,21 @@ function userLogout() {
   }
 
   .header-right {
+    height: 100%;
     margin-right: 20px;
     display: flex;
     align-items: center;
 
+    .theme {
+      margin-right: 20px;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .theme:hover {
+      cursor: pointer;
+    }
     .el-dropdown-link {
       display: flex;
       align-items: center;

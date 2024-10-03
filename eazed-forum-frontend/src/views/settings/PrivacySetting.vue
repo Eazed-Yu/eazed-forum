@@ -102,10 +102,10 @@ const description = ref('')
 <template>
   <div style="display: flex;max-width: 950px;margin: auto">
     <div class="privacy-main">
-      <div class="privacy-cards">
+      <div class="privacy-cards unselectable">
         <card :icon="Setting"
               description="在这里设置哪些内容可以被其他人看见"
-              style="border-radius: 15px;border: solid 1px var(--el-border-color);" title="隐私设置">
+              style="border-radius: 15px;border: solid 2px var(--el-border-color);" title="隐私设置">
           <div class="checkbox-list">
             <el-checkbox v-model="privacy.phone"
                          @change="savePrivacy('phone', privacy.phone)">公开展示我的手机号
@@ -125,7 +125,7 @@ const description = ref('')
           </div>
         </card>
         <card :icon="Setting" description="在这里修改您的密码"
-              style="border-radius: 15px;border: solid 1px var(--el-border-color);margin-top: 20px"
+              style="border-radius: 15px;border: solid 2px var(--el-border-color);margin-top: 20px"
               title="修改密码">
           <el-form ref="formRef" :model="form" :rules="rules">
             <el-form-item prop="origin_password">
@@ -162,9 +162,9 @@ const description = ref('')
         </card>
       </div>
     </div>
-    <div class="settings-right">
+    <div class="settings-right unselectable">
       <div style="position: sticky;top: 20px">
-        <card style="  border-radius: 15px;border: solid 1px var(--el-border-color);">
+        <card style="  border-radius: 15px;border: solid 2px var(--el-border-color);">
           <div style="text-align: center;padding: 5px 15px 15px 15px">
             <div>
               <el-avatar :src="store.avatarUrl" size="large"/>

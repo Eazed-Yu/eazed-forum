@@ -157,10 +157,5 @@ const handleClose = () => {
   width: 220px;
 }
 
-.unselectable {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
+
 </style>
