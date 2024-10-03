@@ -136,7 +136,7 @@ const handleClose = () => {
 <style lang="less" scoped>
 .aside-container {
   background-color: var(--el-bg-color);
-  height: 100vh;
+  min-height: 100vh;
 
   .logo {
     height: 50px;
