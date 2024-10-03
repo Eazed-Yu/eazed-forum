@@ -105,7 +105,7 @@ const description = ref('')
       <div class="privacy-cards">
         <card :icon="Setting"
               description="在这里设置哪些内容可以被其他人看见"
-              style="border-radius: 15px;border: solid 1px var(--el-border-color);margin-top: 20px" title="隐私设置">
+              style="border-radius: 15px;border: solid 1px var(--el-border-color);" title="隐私设置">
           <div class="checkbox-list">
             <el-checkbox v-model="privacy.phone"
                          @change="savePrivacy('phone', privacy.phone)">公开展示我的手机号
@@ -204,7 +204,6 @@ const description = ref('')
 
   .privacy-cards {
 
-    margin-top: 20px;
 
     .checkbox-list {
       display: flex;
