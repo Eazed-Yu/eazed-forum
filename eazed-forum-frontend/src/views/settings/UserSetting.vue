@@ -144,6 +144,7 @@ function avatarUploadSuccess(response) {
     <div class="settings-left">
       <div class="cards">
         <card :icon="User"
+              style="  border-radius: 15px;border: solid 1px var(--el-border-color);"
               class="card"
               v-loading="loading.form"
               description="在这里编辑您的个人信息，您可以在隐私设置中选择是否展示这些信息"
@@ -177,15 +178,16 @@ function avatarUploadSuccess(response) {
                   :icon="Select"
                   :loading="loading.base"
                   type="success"
-                  style="margin-top: 20px"
+                  style="margin-top: 5px"
                   @click="saveDetails">保存用户信息
               </el-button>
             </div>
           </el-form>
         </card>
         <card :icon="Message"
+              description="您可以修改绑定的电子邮件地址"
               class="card"
-              description="您可以修改绑定的电子邮件地址" style="margin-top: 10px"
+              style="border-radius: 15px;border: solid 1px var(--el-border-color);margin-top: 20px"
               title="电子邮件设置">
           <el-form ref="emailFormRef" :model="emailFrom" :rules="rules" label-position="top"
                    style="margin: 0 10px 10px 10px">
@@ -224,7 +226,7 @@ function avatarUploadSuccess(response) {
     </div>
     <div class="settings-right">
       <div style="position: sticky;top: 20px">
-        <card>
+        <card style="  border-radius: 15px;border: solid 1px var(--el-border-color);">
           <div style="text-align: center;padding: 5px 15px 15px 15px">
             <div>
               <el-avatar :src="store.avatarUrl" size="large"/>
@@ -259,22 +261,20 @@ function avatarUploadSuccess(response) {
 <style scoped>
 .settings-left {
   flex: 2;
-  display: flex;
   margin: 20px;
   justify-content: center;
 }
 
 .settings-right {
-  flex: 1;
+  width: 280px;
   margin: 20px;
-
   .user-name {
+
     font-size: 20px;
     font-weight: bold;
     color: var(--el-text-color-primary);
     margin-top: 10px;
   }
-
   .user-introduction {
     font-size: 14px;
     color: var(--el-text-color-secondary);

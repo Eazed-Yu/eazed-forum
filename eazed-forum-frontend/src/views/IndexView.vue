@@ -13,7 +13,6 @@ get('api/user/info', (data) => {
 
 })
 
-
 </script>
 
 <template>

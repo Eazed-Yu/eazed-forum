@@ -26,7 +26,11 @@ defineProps({
 
 <style scoped>
 .card {
+
+  min-height: 20px;
+  padding: 10px;
   .card-header {
+
     border-bottom: solid 1px var(--el-border-color);
     padding-bottom: 5px;
     margin-bottom: 10px;
@@ -44,10 +48,6 @@ defineProps({
 
   }
 
-  border-radius: 5px;
-  border: solid 1px var(--el-border-color);
-  min-height: 20px;
-  padding: 10px;
 
 }
 </style>
