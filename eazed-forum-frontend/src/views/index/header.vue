@@ -110,7 +110,7 @@ function userLogout() {
     height: 100%;
 
     .icon:hover {
-      background-color: #ecf5ff;
+      background-color: var(--el-border-color);
       cursor: pointer;
     }
 
@@ -148,13 +148,13 @@ function userLogout() {
           font-size: 16px;
           font-weight: bold;
           line-height: 20px;
-          color: #333;
+          color: var(--el-avatar-text-color);
         }
 
         .email {
           margin: 2px 2px;
           font-size: 12px;
-          color: #999;
+          color: var(--el-text-color-secondary);
         }
       }
     }
@@ -162,11 +162,6 @@ function userLogout() {
       cursor: pointer;
     }
 
-
-    .el-dropdown-link:hover .username,
-    .el-dropdown-link:hover .email {
-      color: #409eff;
-    }
   }
 }
 

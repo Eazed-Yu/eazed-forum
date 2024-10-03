@@ -9,8 +9,6 @@ const store = useStore()
 
 get('api/user/info', (data) => {
   store.user = data
-  console.log(data)
-
 })
 
 </script>
@@ -45,13 +43,10 @@ get('api/user/info', (data) => {
   }
 
   .main-content-page {
-    background-color: #f7f8fa;
+    background-color: var(--el-bg-color-page);
     padding: 0;
   }
 
-  .dark .main-content-page {
-    background-color: #212225;
-  }
 }
 
 

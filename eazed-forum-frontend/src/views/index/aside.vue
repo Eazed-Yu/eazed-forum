@@ -142,9 +142,11 @@ const handleClose = () => {
     height: 50px;
     transition: all 0.5s ease;
 
+
     .logo-lg {
+      color: var(--el-text-color-primary);
       font-size: 20px;
-      color: black;
+
       white-space: nowrap;
       overflow: hidden;
     }
