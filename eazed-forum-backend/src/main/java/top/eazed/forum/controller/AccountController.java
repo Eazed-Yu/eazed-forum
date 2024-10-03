@@ -5,14 +5,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import top.eazed.forum.entity.RestBean;
-import top.eazed.forum.entity.dto.Account;
-import top.eazed.forum.entity.dto.AccountDetails;
+import top.eazed.forum.entity.dto.AccountDTO;
+import top.eazed.forum.entity.dto.AccountDetailsDTO;
 import top.eazed.forum.entity.vo.request.AccountDetailsSaveVO;
 import top.eazed.forum.entity.vo.request.ChangePasswordVO;
 import top.eazed.forum.entity.vo.request.ModifyEmailVO;
+import top.eazed.forum.entity.vo.request.PrivacySaveVO;
 import top.eazed.forum.entity.vo.response.AccountDetailsVO;
+import top.eazed.forum.entity.vo.response.AccountPrivacyVO;
 import top.eazed.forum.entity.vo.response.AccountVO;
 import top.eazed.forum.service.AccountDetailsService;
+import top.eazed.forum.service.AccountPrivacyService;
 import top.eazed.forum.service.AccountService;
 import top.eazed.forum.utils.Const;
 
@@ -28,15 +31,18 @@ public class AccountController {
     @Resource
     AccountDetailsService detailsService;
     
+    @Resource
+    AccountPrivacyService accountPrivacyService;
+    
     @GetMapping("/info")
     public RestBean<AccountVO> info(@RequestAttribute(Const.ATTR_USER_ID) int id) {
-        Account account = service.findAccountById(id);
+        AccountDTO account = service.findAccountById(id);
         return RestBean.success(account.asViewObject(AccountVO.class));
     }
     
     @GetMapping("/details")
     public RestBean<AccountDetailsVO> details(@RequestAttribute(Const.ATTR_USER_ID) int id) {
-        AccountDetails details = Optional.ofNullable(detailsService.findAccountDetailsById(id)).orElseGet(AccountDetails::new);
+        AccountDetailsDTO details = Optional.ofNullable(detailsService.findAccountDetailsById(id)).orElseGet(AccountDetailsDTO::new);
         return RestBean.success(details.asViewObject(AccountDetailsVO.class));
     }
     
@@ -65,5 +71,17 @@ public class AccountController {
         String message = service.changePassword(id, vo, request);
         if (message != null) return RestBean.failure(400, message);
         return RestBean.success();
+    }
+    
+    @PostMapping("/save-privacy")
+    public RestBean<Void> savePrivacy(@RequestAttribute(Const.ATTR_USER_ID) int id,
+                                      @RequestBody @Valid PrivacySaveVO privacySaveVO) {
+        accountPrivacyService.savePrivacy(id, privacySaveVO);
+        return RestBean.success();
+    }
+    
+    @GetMapping("/privacy")
+    public RestBean<AccountPrivacyVO> savePrivacy(@RequestAttribute(Const.ATTR_USER_ID) int id) {
+        return RestBean.success(accountPrivacyService.accountPrivacy(id).asViewObject(AccountPrivacyVO.class));
     }
 }

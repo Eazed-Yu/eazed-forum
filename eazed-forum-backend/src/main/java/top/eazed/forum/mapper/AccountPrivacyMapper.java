@@ -1,10 +1,9 @@
 package top.eazed.forum.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import top.eazed.forum.entity.dto.AccountDTO;
 import org.apache.ibatis.annotations.Mapper;
+import top.eazed.forum.entity.dto.AccountPrivacyDTO;
 
 @Mapper
-public interface AccountMapper extends BaseMapper<AccountDTO> {
-
+public interface AccountPrivacyMapper extends BaseMapper<AccountPrivacyDTO> {
 }

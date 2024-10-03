@@ -1,7 +1,7 @@
 package top.eazed.forum.config;
 
 import top.eazed.forum.entity.RestBean;
-import top.eazed.forum.entity.dto.Account;
+import top.eazed.forum.entity.dto.AccountDTO;
 import top.eazed.forum.entity.vo.response.AuthorizeVO;
 import top.eazed.forum.filter.JwtAuthorizeFilter;
 import top.eazed.forum.service.AccountService;
@@ -66,7 +66,7 @@ public class SecurityConfiguration {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         User principal = (User) authentication.getPrincipal();
-        Account account = accountService.findAccountByNameOrEmail(principal.getUsername());
+        AccountDTO account = accountService.findAccountByNameOrEmail(principal.getUsername());
         String token = jwtUtils.createJwt(principal, account.getId(), account.getUsername());
         response.getWriter().write(RestBean.success(new AuthorizeVO(account.getUsername(), account.getRole(), token, jwtUtils.getExpireTime())).asJsonString());
         

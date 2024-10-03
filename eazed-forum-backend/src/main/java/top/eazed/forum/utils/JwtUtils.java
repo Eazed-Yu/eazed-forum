@@ -48,13 +48,13 @@ public class JwtUtils {
         }
     }
     
-    private boolean deleteToken(String uuid, Date time) {
-        if (this.isInvalidToken(uuid)) {
+    private boolean deleteToken(String id, Date time) {
+        if (this.isInvalidToken(id)) {
             return false;
         }
         Date now = new Date();
         long expire = Math.max(time.getTime() - now.getTime(), 0);
-        template.opsForValue().set(Const.JWT_BLOCK_LIST + uuid, "", expire, TimeUnit.MILLISECONDS);
+        template.opsForValue().set(Const.JWT_BLOCK_LIST + id, "", expire, TimeUnit.MILLISECONDS);
         return true;
     }
     

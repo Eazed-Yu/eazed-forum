@@ -3,13 +3,13 @@ package top.eazed.forum.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import top.eazed.forum.entity.dto.Account;
+import top.eazed.forum.entity.dto.AccountDTO;
 import top.eazed.forum.entity.vo.request.*;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 
-public interface AccountService extends IService<Account>, UserDetailsService {
-    Account findAccountByNameOrEmail(String text);
+public interface AccountService extends IService<AccountDTO>, UserDetailsService {
+    AccountDTO findAccountByNameOrEmail(String text);
     
     String registerEmailVerifyCode(String type, String email, String ip);
     
@@ -19,7 +19,7 @@ public interface AccountService extends IService<Account>, UserDetailsService {
     
     String resetEmailAccountPassword(EmailResetVO vo);
     
-    Account findAccountById (int id);
+    AccountDTO findAccountById(int id);
     
     String modifyEmail(int id, ModifyEmailVO vo);
     

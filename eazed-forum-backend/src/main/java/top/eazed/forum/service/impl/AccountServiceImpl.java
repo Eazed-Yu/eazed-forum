@@ -3,7 +3,7 @@ package top.eazed.forum.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
-import top.eazed.forum.entity.dto.Account;
+import top.eazed.forum.entity.dto.AccountDTO;
 import top.eazed.forum.entity.vo.request.*;
 import top.eazed.forum.mapper.AccountMapper;
 import top.eazed.forum.service.AccountService;
@@ -25,7 +25,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> implements AccountService {
+public class AccountServiceImpl extends ServiceImpl<AccountMapper, AccountDTO> implements AccountService {
     
     @Resource
     AmqpTemplate amqpTemplate;
@@ -44,7 +44,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Account account = this.findAccountByNameOrEmail(username);
+        AccountDTO account = this.findAccountByNameOrEmail(username);
         if (account == null)
             throw new UsernameNotFoundException("用户名或密码错误");
         return User
@@ -54,7 +54,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
                 .build();
     }
     
-    public Account findAccountByNameOrEmail(String text) {
+    public AccountDTO findAccountByNameOrEmail(String text) {
         return this.query()
                 .eq("username", text).or()
                 .eq("email", text)
@@ -96,7 +96,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
         if (this.existsAccountByEmail(email)) return "此账号已经注册";
         if (this.existsAccountByUsername(vo.getUsername())) return "此用户名已经注册";
         String password = passwordEncoder.encode(vo.getPassword());
-        Account account = new Account(null, vo.getUsername(), password, email, "user", new Date());
+        AccountDTO account = new AccountDTO(null, vo.getUsername(), password, email, "user", new Date());
         
         if (this.save(account)) {
             stringRedisTemplate.delete(Const.VERIFY_EMAIL_DATA + email);
@@ -132,11 +132,11 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     }
     
     private boolean existsAccountByEmail(String email) {
-        return baseMapper.exists(Wrappers.<Account>query().eq("email", email));
+        return baseMapper.exists(Wrappers.<AccountDTO>query().eq("email", email));
     }
     
     private boolean existsAccountByUsername(String username) {
-        return baseMapper.exists(Wrappers.<Account>query().eq("username", username));
+        return baseMapper.exists(Wrappers.<AccountDTO>query().eq("username", username));
     }
     
     private boolean verifyLimit(String ip) {
@@ -145,7 +145,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     }
     
     @Override
-    public Account findAccountById(int id) {
+    public AccountDTO findAccountById(int id) {
         return this.query().eq("id", id).one();
     }
     
@@ -166,7 +166,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     @Override
     public String changePassword(int id, ChangePasswordVO vo, HttpServletRequest request) {
         // 如果原密码错误
-        Account account = this.findAccountById(id);
+        AccountDTO account = this.findAccountById(id);
         if (!passwordEncoder.matches(vo.getOrigin_password(), account.getPassword())) return "原密码错误";
         // 更新密码
         String password = passwordEncoder.encode(vo.getPassword());

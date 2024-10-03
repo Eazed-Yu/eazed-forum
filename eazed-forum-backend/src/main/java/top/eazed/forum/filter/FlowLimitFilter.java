@@ -47,7 +47,6 @@ public class FlowLimitFilter extends HttpFilter {
             }
             return true;
         }
-        
     }
     
     private void Forbidden(HttpServletResponse response) throws IOException {
