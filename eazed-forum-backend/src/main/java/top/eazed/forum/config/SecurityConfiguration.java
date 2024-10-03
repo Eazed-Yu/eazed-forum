@@ -1,12 +1,5 @@
 package top.eazed.forum.config;
 
-import top.eazed.forum.entity.RestBean;
-import top.eazed.forum.entity.dto.AccountDTO;
-import top.eazed.forum.entity.vo.response.AuthorizeVO;
-import top.eazed.forum.filter.JwtAuthorizeFilter;
-import top.eazed.forum.service.AccountService;
-import top.eazed.forum.utils.Const;
-import top.eazed.forum.utils.JwtUtils;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,6 +14,13 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import top.eazed.forum.entity.RestBean;
+import top.eazed.forum.entity.dto.AccountDTO;
+import top.eazed.forum.entity.vo.response.AuthorizeVO;
+import top.eazed.forum.filter.JwtAuthorizeFilter;
+import top.eazed.forum.service.AccountService;
+import top.eazed.forum.utils.Const;
+import top.eazed.forum.utils.JwtUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -42,6 +42,7 @@ public class SecurityConfiguration {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/auth/**", "/error").permitAll()
+                        .requestMatchers("/images/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginProcessingUrl("/api/auth/login")

@@ -20,3 +20,7 @@ spring:
   data:
     redis:
       url: "redis://192.168.227.132:6379"
+minio:
+  endpoint: "http://192.168.227.132:9000"
+  username: minio
+  password: password

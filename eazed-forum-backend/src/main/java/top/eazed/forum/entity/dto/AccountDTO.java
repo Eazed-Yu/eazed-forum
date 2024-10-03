@@ -30,4 +30,5 @@ public class AccountDTO implements BaseData {
 
     Date registerTime;
     
+    String avatar;
 }

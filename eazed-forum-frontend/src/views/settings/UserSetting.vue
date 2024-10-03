@@ -4,8 +4,9 @@ import Card from "@/components/Card.vue";
 import {CircleCheck, Message, Select, User,} from "@element-plus/icons-vue";
 import {useStore} from "@/store/index.js";
 import {computed, reactive, ref} from "vue";
-import {get, post} from "@/net/index.js";
+import {accessHeader, get, post} from "@/net/index.js";
 import {ElMessage} from "element-plus";
+import axios from "axios";
 
 const store = useStore()
 const registerTime = computed(() => new Date(store.user.registerTime).toLocaleString())
@@ -113,6 +114,28 @@ function askCode() {
   }
 }
 
+function beforeAvatarUpload(rawFile) {
+  const isJPG = rawFile.type === 'image/jpeg' || rawFile.type === 'image/png'
+  const isLt2M = rawFile.size / 1024 / 1024 < 2
+
+  if (!isJPG) {
+    ElMessage.error('上传头像图片只能是 JPG 和 PNG 格式!')
+  }
+  if (!isLt2M) {
+    ElMessage.error('上传头像图片大小不能超过 2M!')
+  }
+  return isJPG && isLt2M
+}
+
+
+function avatarUploadSuccess(response) {
+  if (response.code === 200) {
+    ElMessage.success('上传成功')
+    store.user.avatar = response.data
+  } else {
+    ElMessage.error('上传失败')
+  }
+}
 
 </script>
 
@@ -204,7 +227,17 @@ function askCode() {
         <card>
           <div style="text-align: center;padding: 5px 15px 15px 15px">
             <div>
-              <el-avatar size="large" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"/>
+              <el-avatar :src="store.avatarUrl" size="large"/>
+              <div style="margin: 5px 0">
+                <el-upload :action="axios.defaults.baseURL + '/api/image/avatar'"
+                           :before-upload="beforeAvatarUpload"
+                           :headers="accessHeader()"
+                           :on-success="avatarUploadSuccess"
+                           :show-file-list="false"
+                >
+                  <el-button round size="small">修改头像</el-button>
+                </el-upload>
+              </div>
               <div class="user-name">你好，{{ store.user.username }}</div>
             </div>
             <el-divider style="margin: 10px 0"/>

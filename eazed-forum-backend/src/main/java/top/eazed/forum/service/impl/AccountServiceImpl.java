@@ -2,14 +2,8 @@ package top.eazed.forum.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import jakarta.servlet.http.HttpServletRequest;
-import top.eazed.forum.entity.dto.AccountDTO;
-import top.eazed.forum.entity.vo.request.*;
-import top.eazed.forum.mapper.AccountMapper;
-import top.eazed.forum.service.AccountService;
-import top.eazed.forum.utils.Const;
-import top.eazed.forum.utils.FlowUtils;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.userdetails.User;
@@ -17,6 +11,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import top.eazed.forum.entity.dto.AccountDTO;
+import top.eazed.forum.entity.vo.request.*;
+import top.eazed.forum.mapper.AccountMapper;
+import top.eazed.forum.service.AccountService;
+import top.eazed.forum.utils.Const;
+import top.eazed.forum.utils.FlowUtils;
 import top.eazed.forum.utils.JwtUtils;
 
 import java.util.Date;
@@ -96,8 +96,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, AccountDTO> i
         if (this.existsAccountByEmail(email)) return "此账号已经注册";
         if (this.existsAccountByUsername(vo.getUsername())) return "此用户名已经注册";
         String password = passwordEncoder.encode(vo.getPassword());
-        AccountDTO account = new AccountDTO(null, vo.getUsername(), password, email, "user", new Date());
-        
+        AccountDTO account = new AccountDTO(null, vo.getUsername(), password, email, "user", new Date(), null);
         if (this.save(account)) {
             stringRedisTemplate.delete(Const.VERIFY_EMAIL_DATA + email);
             return null;

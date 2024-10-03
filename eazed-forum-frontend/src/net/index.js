@@ -4,6 +4,13 @@ import {ElMessage} from 'element-plus'
 
 const authItemName = "access_token"
 
+const accessHeader = () => {
+    const token = takeAccessToken()
+    return {
+        'Authorization': `Bearer ${token}`
+    }
+}
+
 const defaultFailure = (message, code, url) => {
     console.warn(`请求失败：${url}，错误码：${code}，错误信息：${message}`);
     ElMessage.warning(message)
@@ -112,4 +119,4 @@ function unauthorized() {
 
 }
 
-export {login, logout, get, post, unauthorized, deleteAccessToken}
+export {login, logout, get, post, unauthorized, deleteAccessToken, accessHeader}

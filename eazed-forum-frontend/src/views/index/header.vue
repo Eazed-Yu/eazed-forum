@@ -50,7 +50,7 @@ function userLogout() {
     <div class="header-right">
       <el-dropdown class="unselectable">
       <span class="el-dropdown-link flex-box">
-        <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+        <el-avatar :src="store.avatarUrl"
                    style="pointer-events: none;"/>
         <span class="profile">
           <span class="username">{{ store.user.username }}</span>
