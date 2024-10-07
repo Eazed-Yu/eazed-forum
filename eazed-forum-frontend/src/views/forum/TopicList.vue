@@ -3,9 +3,10 @@
 import Card from "@/components/Card.vue";
 import {Calendar, CollectionTag, EditPen, Link} from "@element-plus/icons-vue";
 import Weather from "@/components/Weather.vue";
-import {computed, reactive} from "vue";
+import {computed, reactive, ref} from "vue";
 import {get} from "@/net/index.js";
 import {ElMessage} from "element-plus";
+import TopicEditor from "@/components/TopicEditor.vue";
 
 
 const weather = reactive({
@@ -14,6 +15,7 @@ const weather = reactive({
   hourly: [],
   success: false
 })
+const editor = ref(false);
 
 const today = computed(() => {
   const date = new Date()
@@ -46,7 +48,7 @@ navigator.geolocation.getCurrentPosition((position) => {
   <div class="topic-list">
     <div class="topic-left">
       <card>
-        <div class="create-topic unselectable">
+        <div class="create-topic unselectable" @click="editor = true">
           <el-icon style="margin-right: 10px">
             <EditPen/>
           </el-icon>
@@ -55,7 +57,6 @@ navigator.geolocation.getCurrentPosition((position) => {
       </card>
       <div style="margin-top: 10px;display: flex;flex-direction: column;gap: 10px">
         <card v-for="item in 10" style="height: 100px;">
-
         </card>
       </div>
     </div>
@@ -104,6 +105,7 @@ navigator.geolocation.getCurrentPosition((position) => {
         </div>
       </div>
     </div>
+    <topic-editor :show="editor" @close="editor = false"/>
   </div>
 
 </template>

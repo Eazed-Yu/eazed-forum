@@ -25,6 +25,7 @@ const handleClose = () => {
         router
         @close="handleClose"
         @open="handleOpen"
+        :default-openeds="['1', '2', '3']"
     >
       <div class="logo" style="display: flex; align-items: center; justify-content: center;">
         <el-icon size="20">
