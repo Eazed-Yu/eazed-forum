@@ -24,3 +24,5 @@ minio:
   endpoint: "http://192.168.227.132:9000"
   username: minio
   password: password
+qweather:
+  key: 63e599dabe1a452a99846f6b21b060e0

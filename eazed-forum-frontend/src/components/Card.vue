@@ -8,7 +8,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="card">
+  <div class="card" style="background-color: var(--el-bg-color)">
     <div v-if="title" class="card-header">
       <div class="title">
         <el-icon size="15" style="translate: 0 2px">

@@ -144,7 +144,7 @@ function avatarUploadSuccess(response) {
     <div class="settings-left">
       <div class="cards unselectable">
         <card :icon="User"
-              style="  border-radius: 15px;border: solid 2px var(--el-border-color);"
+              style="border-radius: 15px;border: solid 2px var(--el-border-color);"
               class="card"
               v-loading="loading.form"
               description="在这里编辑您的个人信息，您可以在隐私设置中选择是否展示这些信息"
@@ -248,7 +248,7 @@ function avatarUploadSuccess(response) {
             </div>
           </div>
         </card>
-        <card style="margin-top: 14px">
+        <card style="border-radius: 15px;border: solid 2px var(--el-border-color);margin-top: 14px">
           <div style="color: var(--el-text-color-primary);font-weight: bold;">用户注册时间：{{ registerTime }}</div>
           <div style="color: var(--el-text-color-secondary)">欢迎加入我们的学习论坛</div>
         </card>
@@ -258,7 +258,7 @@ function avatarUploadSuccess(response) {
   </div>
 </template>
 
-<style scoped>
+<style lang="less" scoped>
 .settings-left {
   flex: 2;
   margin: 20px;

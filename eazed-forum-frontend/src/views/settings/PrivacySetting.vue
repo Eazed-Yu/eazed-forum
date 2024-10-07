@@ -186,7 +186,7 @@ const description = ref('')
             </div>
           </div>
         </card>
-        <card style="margin-top: 14px">
+        <card style="border-radius: 15px;border: solid 2px var(--el-border-color);margin-top: 14px">
           <div style="color: var(--el-text-color-primary);font-weight: bold;">用户注册时间：{{ registerTime }}</div>
           <div style="color: var(--el-text-color-secondary)">欢迎加入我们的学习论坛</div>
         </card>
