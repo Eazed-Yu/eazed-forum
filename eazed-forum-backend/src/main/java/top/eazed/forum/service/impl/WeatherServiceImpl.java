@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import top.eazed.forum.entity.vo.response.WeatherVO;
 import top.eazed.forum.service.WeatherService;
+import top.eazed.forum.utils.Const;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -42,7 +43,7 @@ public class WeatherServiceImpl implements WeatherService {
         }
         JSONObject location = data.getJSONArray("location").getJSONObject(0);
         int id = location.getInteger("id");
-        String key = "weather:" + id;
+        String key = Const.FORUM_WEATHER_CACHE + id;
         String cache = stringRedisTemplate.opsForValue().get(key);
         if (cache != null) {
             return JSONObject.parseObject(cache).to(WeatherVO.class);

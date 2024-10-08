@@ -32,4 +32,18 @@ public class ImageController {
         return RestBean.success(url);
     }
     
+    @PostMapping("/cache")
+    public RestBean<String> uploadImage(@RequestParam("file") MultipartFile file,
+                                        @RequestAttribute(Const.ATTR_USER_ID) int id) throws IOException {
+        if (file.getSize() > 1024 * 1024 * 5) {
+            return RestBean.failure(400, "图片大小不能大于 5M");
+        }
+        log.info("用户{}上传图片{}", id, file.getOriginalFilename());
+        String url = imageService.uploadImage(file, id);
+        if (url == null) {
+            return RestBean.failure(500, "内部错误");
+        }
+        return RestBean.success(url);
+    }
+    
 }

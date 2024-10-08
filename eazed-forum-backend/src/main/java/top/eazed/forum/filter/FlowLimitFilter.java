@@ -58,7 +58,15 @@ public class FlowLimitFilter extends HttpFilter {
         response.getWriter().write("请求过于频繁，请稍后再试");
     }
     
-    
+    public boolean limitPeriodCounterCheck(String counterKey, int frequency, int period) {
+        if (Boolean.TRUE.equals(template.hasKey(counterKey))) {
+            long increment = Optional.ofNullable(template.opsForValue().increment(counterKey, 1)).orElse(0L);
+            return increment <= frequency;
+        } else {
+            template.opsForValue().set(counterKey, "1", period, TimeUnit.SECONDS);
+        }
+        return true;
+    }
     
     
     
