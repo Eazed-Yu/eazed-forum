@@ -42,6 +42,7 @@ navigator.geolocation.getCurrentPosition((position) => {
   })
 })
 
+
 </script>
 
 <template>

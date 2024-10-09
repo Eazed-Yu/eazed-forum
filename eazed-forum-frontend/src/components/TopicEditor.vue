@@ -1,8 +1,13 @@
 <script setup>
 import {Document} from "@element-plus/icons-vue";
 import {reactive} from "vue";
-import {QuillEditor} from "@vueup/vue-quill";
+import {Quill, QuillEditor} from "@vueup/vue-quill";
+import ImageResize from "quill-image-resize-vue";
+import {ImageExtend, QuillWatch} from "quill-image-super-solution-module";
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
+import axios from "axios";
+import {accessHeader} from "@/net/index.js";
+import {ElMessage} from "element-plus";
 
 defineProps({
   show: Boolean
@@ -11,8 +16,10 @@ defineProps({
 const editor = reactive({
   type: null,
   title: '',
-  text: ''
+  text: '',
+  loading: false
 })
+
 
 const types = [
   {id: 1, name: '日常闲聊', description: '日常闲聊，聊聊生活'},
@@ -25,6 +32,64 @@ const types = [
 
 const emit = defineEmits(['close'])
 
+
+Quill.register('modules/imageResize', ImageResize);
+Quill.register('modules/ImageExtend', ImageExtend);
+const editorOption = {
+  modules: {
+    toolbar: {
+      container: [
+        "bold", "italic", "underline", "strike", "clean",
+        {color: []}, {'background': []},
+        {size: ["small", false, "large", "huge"]},
+        {header: [1, 2, 3, 4, 5, 6, false]}, {list: "ordered"},
+        {list: "bullet"}, {align: []},
+        "blockquote", "code-block", "link", "image",
+        {indent: '-1'}, {indent: '+1'}
+      ],
+      handlers: {
+        'image': function () {
+          QuillWatch.emit(this.quill.id)
+        }
+      }
+    },
+    imageResize: {
+      modules: ['Resize', 'DisplaySize', 'Toolbar']
+    },
+    ImageExtend: {
+      action: axios.defaults.baseURL + '/api/image/cache',
+      name: 'file',
+      size: 5,
+      loading: true,
+      accept: 'image/png, image/jpeg',
+      response: (response) => {
+        if (response.data) {
+          return axios.defaults.baseURL + '/images' + response.data
+        } else {
+          return null
+        }
+      },
+      methods: 'POST',
+      headers: xhr => {
+        xhr.setRequestHeader('Authorization', accessHeader().Authorization)
+      },
+      start: () => editor.loading = true,
+      success: () => {
+        ElMessage.success('上传成功')
+        editor.loading = false
+      },
+      error: () => {
+        ElMessage.error('上传失败')
+        editor.loading = false
+      }
+    }
+  }
+}
+
+
+function submitTopic() {
+  console.log(editor.text)
+}
 </script>
 
 <template>
@@ -50,17 +115,21 @@ const emit = defineEmits(['close'])
             <el-input :prefix-icon="Document" placeholder="请输入标题"/>
           </div>
         </div>
-        <div style="display: flex;flex-direction: column;height: 65vh">
+        <div v-loading="editor.loading" element-loading-text="正在上传图片..."
+             style="display: flex;flex-direction: column;height: 65vh;border-radius: 5px">
           <div style="margin-top: 20px;flex: 1;overflow: hidden">
             <quill-editor v-model:content="editor.text" placeholder="今天想分享什么呢？"
-                          style="height: calc(100% - 45px)"/>
+                          :options="editorOption"
+                          content-type="delta"
+                          style="height: calc(100% - 45px)"
+            />
           </div>
           <div style="display: flex;justify-content: space-between;bottom: 10px">
             <div style="color: var(--el-text-color-secondary);font-size: 14px">
               当前字数 500 / 500
             </div>
             <div>
-              <el-button type="success">发表</el-button>
+              <el-button type="success" @click="submitTopic">发表</el-button>
             </div>
           </div>
         </div>
