@@ -1,37 +1,58 @@
 <script setup>
 import {Document} from "@element-plus/icons-vue";
-import {reactive} from "vue";
+import {computed, reactive, ref} from "vue";
 import {Quill, QuillEditor} from "@vueup/vue-quill";
 import ImageResize from "quill-image-resize-vue";
 import {ImageExtend, QuillWatch} from "quill-image-super-solution-module";
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import axios from "axios";
-import {accessHeader} from "@/net/index.js";
+import {accessHeader, get, post} from "@/net/index.js";
 import {ElMessage} from "element-plus";
 
 defineProps({
   show: Boolean
 })
 
+const refEditor = ref()
+
 const editor = reactive({
   type: null,
   title: '',
   text: '',
-  loading: false
+  loading: false,
+  types: []
 })
 
+function initEditor() {
+  refEditor.value.setContents('', 'user')
+  editor.type = null
+  editor.title = ''
+}
 
-const types = [
-  {id: 1, name: '日常闲聊', description: '日常闲聊，聊聊生活'},
-  {id: 2, name: '真诚交友', description: '真诚交友，寻找知己'},
-  {id: 3, name: '问题反馈', description: '问题反馈，建议意见'},
-  {id: 4, name: '恋爱官宣', description: '恋爱官宣，晒晒幸福'},
-  {id: 5, name: '踩坑记录', description: '踩坑记录，分享经验'}
-]
+get('/api/forum/types', data => {
+  editor.types = data
+})
+
+const emit = defineEmits(['close', 'success'])
 
 
-const emit = defineEmits(['close'])
+function deltaToText(delta) {
+  if (!delta) return ''
+  let str = ''
+  delta.ops.forEach(item => {
+    if (item.insert) {
+      if (typeof item.insert === 'string') {
+        str += item.insert
+      } else {
+      }
+    }
+  })
+  return str.replace(/\s/g, '')
+}
 
+const contentLength = computed(() => {
+  return deltaToText(editor.text).length
+})
 
 Quill.register('modules/imageResize', ImageResize);
 Quill.register('modules/ImageExtend', ImageExtend);
@@ -77,6 +98,7 @@ const editorOption = {
       success: () => {
         ElMessage.success('上传成功')
         editor.loading = false
+        initEditor()
       },
       error: () => {
         ElMessage.error('上传失败')
@@ -88,7 +110,30 @@ const editorOption = {
 
 
 function submitTopic() {
-  console.log(editor.text)
+  if (!editor.type) {
+    ElMessage.error('请选择主题')
+    return
+  }
+  if (!editor.title) {
+    ElMessage.error('请输入标题')
+    return
+  }
+  if (contentLength.value === 0) {
+    ElMessage.error('请输入内容')
+    return
+  }
+  if (contentLength.value > 20000) {
+    ElMessage.error('内容字数超过限制')
+    return
+  }
+  post('/api/forum/create-topic', {
+    type: editor.type,
+    title: editor.title,
+    content: editor.text
+  }, () => {
+    ElMessage.success('发表成功')
+    emit('success')
+  })
 }
 </script>
 
@@ -98,7 +143,8 @@ function submitTopic() {
       <el-drawer :model-value="show"
                  direction="btt"
                  size="85vh"
-                 @close="emit('close')">
+                 @close="emit('close')"
+      >
         <template #header>
           <div>
             <div style="font-weight: bold;color: var(--el-text-color-primary)">发表话题</div>
@@ -107,26 +153,27 @@ function submitTopic() {
         </template>
         <div style="display: flex;gap: 10px">
           <div style="width: 110px">
-            <el-select v-model="editor.type" placeholder="主题">
-              <el-option v-for="item in types" :label="item.name" :value="item.id"/>
+            <el-select v-model="editor.type" :disabled="!editor.types.length" placeholder="主题">
+              <el-option v-for="item in editor.types" :label="item.name" :value="item.id"/>
             </el-select>
           </div>
           <div style="flex: 1">
-            <el-input :prefix-icon="Document" placeholder="请输入标题"/>
+            <el-input v-model="editor.title" :prefix-icon="Document" maxlength="30" placeholder="请输入标题"/>
           </div>
         </div>
-        <div v-loading="editor.loading" element-loading-text="正在上传图片..."
+        <div v-loading="undefined" element-loading-text="正在上传图片..."
              style="display: flex;flex-direction: column;height: 65vh;border-radius: 5px">
           <div style="margin-top: 20px;flex: 1;overflow: hidden">
             <quill-editor v-model:content="editor.text" placeholder="今天想分享什么呢？"
                           :options="editorOption"
                           content-type="delta"
                           style="height: calc(100% - 45px)"
+                          ref="refEditor"
             />
           </div>
           <div style="display: flex;justify-content: space-between;bottom: 10px">
             <div style="color: var(--el-text-color-secondary);font-size: 14px">
-              当前字数 500 / 500
+              当前字数 {{ contentLength }} / 20000
             </div>
             <div>
               <el-button type="success" @click="submitTopic">发表</el-button>
