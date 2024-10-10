@@ -168,7 +168,7 @@ function submitTopic() {
           </div>
         </div>
         <div style="margin-top: 10px;font-size: 14px;color: var(--el-text-color-secondary)">
-          <color-dot :color="editor.type ? editor.type.color : ''"/>
+          <color-dot :color="editor.type ? editor.type.color : '#686767'"/>
           <span style="margin-left: 10px">{{ editor.type ? editor.type.description : "请选择主题" }}</span>
         </div>
         <div element-loading-text="正在上传图片..."

@@ -14,7 +14,9 @@ public class TopicDTO {
     Integer id;
     String title;
     String content;
-    Integer uid;
     Integer type;
     Date time;
+    Integer uid;
+    String username;
+    String avatar;
 }
