@@ -13,4 +13,5 @@ public class TopicTypeDTO implements BaseData {
     Integer id;
     String name;
     String description;
+    String color;
 }

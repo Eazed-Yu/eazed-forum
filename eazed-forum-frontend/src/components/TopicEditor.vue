@@ -8,6 +8,7 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import axios from "axios";
 import {accessHeader, get, post} from "@/net/index.js";
 import {ElMessage} from "element-plus";
+import ColorDot from "@/components/ColorDot.vue";
 
 defineProps({
   show: Boolean
@@ -127,7 +128,7 @@ function submitTopic() {
     return
   }
   post('/api/forum/create-topic', {
-    type: editor.type,
+    type: editor.type.id,
     title: editor.title,
     content: editor.text
   }, () => {
@@ -153,15 +154,24 @@ function submitTopic() {
         </template>
         <div style="display: flex;gap: 10px">
           <div style="width: 110px">
-            <el-select v-model="editor.type" :disabled="!editor.types.length" placeholder="主题">
-              <el-option v-for="item in editor.types" :label="item.name" :value="item.id"/>
+            <el-select v-model="editor.type" :disabled="!editor.types.length" placeholder="主题" value-key="id">
+              <el-option v-for="item in editor.types" :label="item.name" :value="item">
+                <div>
+                  <color-dot :color="item.color"/>
+                  <span style="margin-left: 10px">{{ item.name }}</span>
+                </div>
+              </el-option>
             </el-select>
           </div>
           <div style="flex: 1">
             <el-input v-model="editor.title" :prefix-icon="Document" maxlength="30" placeholder="请输入标题"/>
           </div>
         </div>
-        <div v-loading="undefined" element-loading-text="正在上传图片..."
+        <div style="margin-top: 10px;font-size: 14px;color: var(--el-text-color-secondary)">
+          <color-dot :color="editor.type ? editor.type.color : ''"/>
+          <span style="margin-left: 10px">{{ editor.type ? editor.type.description : "请选择主题" }}</span>
+        </div>
+        <div element-loading-text="正在上传图片..."
              style="display: flex;flex-direction: column;height: 65vh;border-radius: 5px">
           <div style="margin-top: 20px;flex: 1;overflow: hidden">
             <quill-editor v-model:content="editor.text" placeholder="今天想分享什么呢？"
