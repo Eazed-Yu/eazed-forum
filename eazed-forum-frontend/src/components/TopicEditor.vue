@@ -99,7 +99,6 @@ const editorOption = {
       success: () => {
         ElMessage.success('上传成功')
         editor.loading = false
-        initEditor()
       },
       error: () => {
         ElMessage.error('上传失败')
@@ -133,7 +132,9 @@ function submitTopic() {
     content: editor.text
   }, () => {
     ElMessage.success('发表成功')
+    initEditor()
     emit('success')
+
   })
 }
 </script>
