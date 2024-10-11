@@ -297,7 +297,7 @@ watch(() => topics.type, () => {
 
 
     .topic-card {
-      transition: scale 0.3s;
+      transition: scale 0.2s;
       padding: 10px;
 
       &:hover {
@@ -330,6 +330,12 @@ watch(() => topics.type, () => {
         width: 100%;
         height: 100%;
         max-height: 110px;
+        transition: scale 0.2s;
+
+        &:hover {
+          scale: 1.2;
+          z-index: auto;
+        }
       }
 
     }
