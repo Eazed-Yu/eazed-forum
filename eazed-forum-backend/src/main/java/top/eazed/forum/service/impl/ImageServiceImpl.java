@@ -70,7 +70,8 @@ public class ImageServiceImpl extends ServiceImpl<ImageStoreMapper, StoreImageDT
     @Override
     public String uploadImage(MultipartFile file, int id) throws IOException {
         String key = Const.FORUM_IMAGE_COUNTER + id;
-        if (!flowLimitFilter.limitPeriodCounterCheck(key, 100, 3600)) {
+        if (!flowLimitFilter.limitPeriodCounterCheck(key, 1000, 3600)) {
+            log.info("用户{}上传图片频率过高", id);
             return null;
         }
         String imageName = UUID.randomUUID().toString().replace("-", "");

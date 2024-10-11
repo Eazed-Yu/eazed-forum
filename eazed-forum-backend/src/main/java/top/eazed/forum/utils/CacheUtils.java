@@ -7,15 +7,16 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Component
 public class CacheUtils {
     @Resource
-    StringRedisTemplate redisTemplate;
+    StringRedisTemplate stringRedisTemplate;
     
     public <T> T takeFromCache(String key, Class<T> itemType) {
-        String s = redisTemplate.opsForValue().get(key);
+        String s = stringRedisTemplate.opsForValue().get(key);
         if (s == null) {
             return null;
         }
@@ -23,7 +24,7 @@ public class CacheUtils {
     }
     
     public <T> List<T> takeListFromCache(String key, Class<T> itemType) {
-        String s = redisTemplate.opsForValue().get(key);
+        String s = stringRedisTemplate.opsForValue().get(key);
         if (s == null) {
             return null;
         }
@@ -31,16 +32,21 @@ public class CacheUtils {
     }
     
     
-    public <T> void saveListToCache(String key, T data, long expire) {
-        redisTemplate.opsForValue().set(key, JSONObject.from(data).toJSONString(), expire, TimeUnit.SECONDS);
+    public <T> void saveToCache(String key, T data, long expire) {
+        stringRedisTemplate.opsForValue().set(key, JSONObject.from(data).toJSONString(), expire, TimeUnit.SECONDS);
     }
     
     public <T> void saveListToCache(String key, List<T> list, long expire) {
-        redisTemplate.opsForValue().set(key, JSONArray.from(list).toJSONString(), expire, TimeUnit.SECONDS);
+        stringRedisTemplate.opsForValue().set(key, JSONArray.from(list).toJSONString(), expire, TimeUnit.SECONDS);
     }
     
     
     public void deleteCache(String key) {
-        redisTemplate.delete(key);
+        stringRedisTemplate.delete(key);
+    }
+    
+    public void deleteCachePattern(String pattern) {
+        Optional.ofNullable(stringRedisTemplate.keys(pattern))
+                .ifPresent(keys -> stringRedisTemplate.delete(keys));
     }
 }

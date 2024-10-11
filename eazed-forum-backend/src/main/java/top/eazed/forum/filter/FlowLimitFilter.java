@@ -43,7 +43,7 @@ public class FlowLimitFilter extends HttpFilter {
                 template.opsForValue().set(Const.FLOW_LIMIT_COUNTER + ip, "1", 3, TimeUnit.SECONDS);
             }
             long increment = Optional.ofNullable(template.opsForValue().increment(Const.FLOW_LIMIT_COUNTER + ip, 1)).orElse(0L);
-            if (increment > 20) {
+            if (increment > 200) {
                 log.info("IP: {} 请求过于频繁", ip);
                 template.opsForValue().set(Const.FLOW_LIMIT_BLOCK + ip, "", 1, TimeUnit.MINUTES);
                 return false;
