@@ -6,14 +6,15 @@ import ImageResize from "quill-image-resize-vue";
 import {ImageExtend, QuillWatch} from "quill-image-super-solution-module";
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import axios from "axios";
-import {accessHeader, get, post} from "@/net/index.js";
+import {accessHeader, post} from "@/net/index.js";
 import {ElMessage} from "element-plus";
 import ColorDot from "@/components/ColorDot.vue";
+import {useStore} from "@/store/index.js";
 
 defineProps({
   show: Boolean
 })
-
+const store = useStore()
 const refEditor = ref()
 
 const editor = reactive({
@@ -21,7 +22,6 @@ const editor = reactive({
   title: '',
   text: '',
   loading: false,
-  types: []
 })
 
 function initEditor() {
@@ -30,9 +30,6 @@ function initEditor() {
   editor.title = ''
 }
 
-get('/api/forum/types', data => {
-  editor.types = data
-})
 
 const emit = defineEmits(['close', 'success'])
 
@@ -144,7 +141,7 @@ function submitTopic() {
     <el-scrollbar>
       <el-drawer :model-value="show"
                  direction="btt"
-                 size="85vh"
+                 size="95vh"
                  @close="emit('close')"
       >
         <template #header>
@@ -155,8 +152,8 @@ function submitTopic() {
         </template>
         <div style="display: flex;gap: 10px">
           <div style="width: 110px">
-            <el-select v-model="editor.type" :disabled="!editor.types.length" placeholder="主题" value-key="id">
-              <el-option v-for="item in editor.types" :label="item.name" :value="item">
+            <el-select v-model="editor.type" :disabled="!store.forum.types.length" placeholder="主题" value-key="id">
+              <el-option v-for="item in store.forum.types" :label="item.name" :value="item">
                 <div>
                   <color-dot :color="item.color"/>
                   <span style="margin-left: 10px">{{ item.name }}</span>

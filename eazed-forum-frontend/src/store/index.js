@@ -13,12 +13,23 @@ export const useStore = defineStore('general', {
             },
             menu: {
                 isCollapse: false,
+            },
+            forum: {
+                types: [],
+                selectType: []
             }
         }
     },
     actions: {
         collapseMenu () {
             this.menu.isCollapse = !this.menu.isCollapse;
+        },
+        findTypeById(id) {
+            for (let type of this.forum.types) {
+                if (type.id === id) {
+                    return type;
+                }
+            }
         }
     },
     getters: {
