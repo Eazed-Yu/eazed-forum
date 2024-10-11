@@ -323,7 +323,6 @@ watch(() => topics.type, () => {
         border-radius: 10px;
         font-size: 16px;
         padding: 0 5px;
-
       }
 
       .topic-image {
