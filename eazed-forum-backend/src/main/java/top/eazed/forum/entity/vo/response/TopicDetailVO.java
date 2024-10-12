@@ -13,6 +13,7 @@ public class TopicDetailVO {
     Date Time;
     User user;
     
+    @Data
     public static class User {
         Integer id;
         String username;
