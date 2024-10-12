@@ -18,7 +18,7 @@ const router = createRouter({
                     path: 'register',
                     name: 'welcome-register',
                     component: () => import('@/views/welcome/RegisterPage.vue')
-                },{
+                }, {
                     path: 'reset',
                     name: 'welcome-reset',
                     component: () => import('@/views/welcome/ResetPage.vue')
@@ -33,6 +33,11 @@ const router = createRouter({
                     path: '',
                     name: 'topic-list',
                     component: () => import('@/views/forum/TopicList.vue')
+                },
+                {
+                    path: 'topic-detail/:tid',
+                    name: 'topic-detail',
+                    component: () => import('@/views/forum/TopicDetail.vue')
                 },
                 {
                     path: 'user-setting',

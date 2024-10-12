@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Min;
 import org.springframework.web.bind.annotation.*;
 import top.eazed.forum.entity.RestBean;
 import top.eazed.forum.entity.vo.request.TopicCreateVO;
+import top.eazed.forum.entity.vo.response.TopicDetailVO;
 import top.eazed.forum.entity.vo.response.TopicPreviewVO;
 import top.eazed.forum.entity.vo.response.TopicTypeVO;
 import top.eazed.forum.entity.vo.response.WeatherVO;
@@ -54,8 +55,11 @@ public class ForumController {
     @GetMapping("/list-topic")
     public RestBean<List<TopicPreviewVO>> listTopic(@RequestParam @Min(0) int page,
                                                     @RequestParam @Min(0) int type) {
-        return RestBean.success(topicService.listTopicByPage(page, type));
-        
-        
+        return RestBean.success(topicService.listTopicByPage(page + 1, type));
+    }
+    
+    @GetMapping("/topic")
+    public RestBean<TopicDetailVO> topic(@RequestParam @Min(0) int tid) {
+        return RestBean.success(topicService.getTopic(tid));
     }
 }
