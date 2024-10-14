@@ -21,7 +21,10 @@ import TopicEditor from "@/components/TopicEditor.vue";
 import {useStore} from "@/store/index.js";
 import axios from "axios";
 import ColorDot from "@/components/ColorDot.vue";
+import {useRouter} from "vue-router";
+import TopicTag from "@/components/TopicTag.vue";
 
+const router = useRouter()
 const store = useStore()
 const weather = reactive({
   location: '',
@@ -34,10 +37,11 @@ const topics = reactive({
   list: [],
   type: 0,
   page: 0,
-  end: false
+  end: false,
+  top: []
 })
 
-
+get('/api/forum/top-topic', data => topics.top = data)
 const today = computed(() => {
   const date = new Date()
   return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`
@@ -74,21 +78,6 @@ function updateList() {
     }
   })
 }
-
-// 获取帖子类型
-get('/api/forum/types', data => {
-  const array = []
-  array.push({
-    name: '全部',
-    id: 0,
-    color: 'linear-gradient(45deg, white, red, orange, gold, green, blue)'
-  })
-  data.forEach(item => {
-    array.push(item)
-  })
-  store.forum.types = data
-  store.forum.selectType = array
-})
 
 function initList() {
   topics.page = 0;
@@ -131,6 +120,13 @@ watch(() => topics.type, () => {
           </el-icon>
         </div>
       </card>
+      <card style="margin-top: 10px;display: flex;flex-direction: column;gap: 10px">
+        <div v-for="item in topics.top" class="top-topic" @click="router.push(`/index/topic-detail/${item.id}`)">
+          <el-tag size="small" type="info">置顶</el-tag>
+          <div>{{ item.title }}</div>
+          <div>{{ new Date(item.time).toLocaleDateString() }}</div>
+        </div>
+      </card>
       <card style="margin-top: 10px;display: flex;gap: 7px;justify-content: center">
         <div v-for="item in store.forum.selectType"
              :class="`type-select-card ${topics.type === item.id ? 'active' : ''}`"
@@ -144,7 +140,9 @@ watch(() => topics.type, () => {
         <div v-if="topics.list?.length">
           <div v-if="store.forum.types" v-infinite-scroll="updateList"
                style="margin-top: 10px;display: flex;flex-direction: column;gap: 10px">
-            <card v-for="item in topics.list" class="topic-card">
+            <card v-for="item in topics.list" class="topic-card"
+                  @click="router.push(`/index/topic-detail/` + item.id)"
+            >
               <div style="display: flex">
                 <div>
                   <el-avatar :size="30" :src="`${axios.defaults.baseURL}/images${item.avatar}`"/>
@@ -162,14 +160,7 @@ watch(() => topics.type, () => {
                 </div>
               </div>
               <div style="margin-top: 5px">
-                <div :style="{
-              color: store.findTypeById(item.type)?.color + 'EE',
-              'border-color': store.findTypeById(item.type)?.color + '77',
-              'background-color': store.findTypeById(item.type)?.color + '33'
-                 }"
-                     class="topic-type">
-                  {{ store.findTypeById(item.type)?.name }}
-                </div>
+                <topic-tag :type="item.type"/>
                 <span style="font-weight: bold;margin-left: 5px">{{ item.title }}</span>
               </div>
               <div class="topic-content">
@@ -253,6 +244,7 @@ watch(() => topics.type, () => {
   }
 
 }
+
 .topic-list {
 
   display: flex;
@@ -264,6 +256,32 @@ watch(() => topics.type, () => {
   .topic-left {
     flex: 1;
 
+    .top-topic {
+      display: flex;
+
+      div:first-of-type {
+        font-size: 14px;
+        margin-left: 10px;
+        font-weight: bold;
+        opacity: 0.8;
+        transition: color .3s;
+
+        &:hover {
+          color: grey;
+        }
+      }
+
+      div:nth-of-type(2) {
+        flex: 1;
+        color: grey;
+        font-size: 13px;
+        text-align: right;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
     .type-select-card {
       transition: all 0.3s;
       background-color: #f5f6f5;
@@ -317,13 +335,6 @@ watch(() => topics.type, () => {
         text-overflow: ellipsis;
       }
 
-      .topic-type {
-        display: inline-block;
-        border: solid 0.5px grey;
-        border-radius: 10px;
-        font-size: 16px;
-        padding: 0 5px;
-      }
 
       .topic-image {
         width: 100%;

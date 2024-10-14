@@ -14,6 +14,7 @@ import top.eazed.forum.entity.dto.*;
 import top.eazed.forum.entity.vo.request.TopicCreateVO;
 import top.eazed.forum.entity.vo.response.TopicDetailVO;
 import top.eazed.forum.entity.vo.response.TopicPreviewVO;
+import top.eazed.forum.entity.vo.response.TopicTopVO;
 import top.eazed.forum.mapper.*;
 import top.eazed.forum.service.TopicService;
 import top.eazed.forum.utils.CacheUtils;
@@ -183,4 +184,15 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, TopicDTO> impleme
     }
     
     
+    @Override
+    public List<TopicTopVO> listTopTopics() {
+        List<TopicDTO> topics = baseMapper.selectList(Wrappers.<TopicDTO>query()
+                .select("id", "title", "time")
+                .eq("top", 1));
+        return topics.stream().map(topic -> {
+            TopicTopVO vo = new TopicTopVO();
+            BeanUtils.copyProperties(topic, vo);
+            return vo;
+        }).toList();
+    }
 }

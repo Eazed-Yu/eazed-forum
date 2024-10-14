@@ -19,7 +19,7 @@ public class TopicDetailVO {
         String username;
         String avatar;
         String description;
-        boolean gender;
+        Integer gender;
         String qq;
         String wechat;
         String phone;

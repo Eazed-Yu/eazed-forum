@@ -6,10 +6,7 @@ import jakarta.validation.constraints.Min;
 import org.springframework.web.bind.annotation.*;
 import top.eazed.forum.entity.RestBean;
 import top.eazed.forum.entity.vo.request.TopicCreateVO;
-import top.eazed.forum.entity.vo.response.TopicDetailVO;
-import top.eazed.forum.entity.vo.response.TopicPreviewVO;
-import top.eazed.forum.entity.vo.response.TopicTypeVO;
-import top.eazed.forum.entity.vo.response.WeatherVO;
+import top.eazed.forum.entity.vo.response.*;
 import top.eazed.forum.service.TopicService;
 import top.eazed.forum.service.WeatherService;
 import top.eazed.forum.utils.Const;
@@ -61,5 +58,10 @@ public class ForumController {
     @GetMapping("/topic")
     public RestBean<TopicDetailVO> topic(@RequestParam @Min(0) int tid) {
         return RestBean.success(topicService.getTopic(tid));
+    }
+    
+    @GetMapping("/top-topic")
+    public RestBean<List<TopicTopVO>> topTopic() {
+        return RestBean.success(topicService.listTopTopics());
     }
 }
