@@ -2,6 +2,7 @@
 
 import Card from "@/components/Card.vue";
 import {
+  ArrowRightBold,
   Calendar,
   CircleCheck,
   Clock,
@@ -10,6 +11,7 @@ import {
   Document,
   Edit,
   EditPen,
+  FolderOpened,
   Link,
   Microphone,
   Picture,
@@ -25,7 +27,9 @@ import axios from "axios";
 import ColorDot from "@/components/ColorDot.vue";
 import {useRouter} from "vue-router";
 import TopicTag from "@/components/TopicTag.vue";
+import TopicCollectList from "@/components/TopicCollectList.vue";
 
+const collects = ref(false)
 const router = useRouter()
 const store = useStore()
 const weather = reactive({
@@ -193,6 +197,14 @@ watch(() => topics.type, () => {
     </div>
     <div class="topic-right">
       <div class="topic-right-content">
+        <card style="margin-bottom: 10px">
+          <div class="collect-list-button" @click="collects = true">
+            <span><el-icon><FolderOpened/></el-icon> 查看我的收藏</span>
+            <el-icon style="transform: translateY(3px)">
+              <ArrowRightBold/>
+            </el-icon>
+          </div>
+        </card>
         <card class="announcement">
           <div style="font-weight: bold">
             <el-icon>
@@ -237,6 +249,7 @@ watch(() => topics.type, () => {
       </div>
     </div>
     <topic-editor :show="editor" @close="editor = false" @success="editor = false;initList()"/>
+    <topic-collect-list :show="collects" @close="collects = false"/>
   </div>
 
 </template>
@@ -271,7 +284,6 @@ watch(() => topics.type, () => {
 
   .topic-left {
     flex: 1;
-
     .top-topic {
       display: flex;
 
@@ -387,6 +399,17 @@ watch(() => topics.type, () => {
       position: sticky;
       top: 20px;
 
+      .collect-list-button {
+        font-size: 14px;
+        display: flex;
+        justify-content: space-between;
+        transition: .3s;
+
+        &:hover {
+          cursor: pointer;
+          opacity: 0.6;
+        }
+      }
     }
   }
 

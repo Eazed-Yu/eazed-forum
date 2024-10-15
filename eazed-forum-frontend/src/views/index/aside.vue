@@ -37,7 +37,7 @@ const handleClose = () => {
     <el-menu
         :collapse="store.menu.isCollapse"
         :default-active="route.path"
-        class="aside-container"
+        class="aside-container unselectable"
         router
         @close="handleClose"
         @open="handleOpen"
