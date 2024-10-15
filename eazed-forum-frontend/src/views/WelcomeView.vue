@@ -5,8 +5,8 @@
 <template>
   <div style="width: 100vw;height: 100vh;overflow: hidden;display: flex">
     <div class="left-card">
-      <el-image fit = "cover" src = "https://pbs.twimg.com/media/EtSfHpjVkAEWlG6.jpg"
-                style="width: 100%;height: 100%"/>
+      <el-image class="image" fit="cover" src="/welcome.jpg"
+                style=""/>
       <div class="welcome-title">
         <div style="font-size: 50px;font-weight: bold">欢迎来到我们的网站</div>
         <div style="margin-top: 10px">这是一个基于Vue3.0的前端项目</div>
@@ -34,6 +34,7 @@
   left: 50px;
   color: white;
   text-shadow: 0 0 10px black;
+
 }
 
 .right-card {
@@ -42,5 +43,17 @@
   z-index: 1;
   background-color: var(--el-bg-color);
 }
+
+.image {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 500px) {
+  .image {
+    display: none;
+  }
+}
+
 
 </style>

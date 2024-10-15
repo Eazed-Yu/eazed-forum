@@ -137,10 +137,11 @@ watch(() => topics.type, () => {
       <card style="margin-top: 10px;display: flex;gap: 7px;justify-content: center">
         <div v-for="item in store.forum.selectType"
              :class="`type-select-card ${topics.type === item.id ? 'active' : ''}`"
+             style="display: flex; text-align: center; align-items: center; justify-content: center"
              @click="topics.type = item.id"
         >
-          <color-dot :color="item.color"/>
-          <span style="margin-left: 5px">{{ item.name }}</span>
+          <color-dot :color="item.color" style="align-self: center; justify-self: center; text-align: center"/>
+          <div>{{ item.name }}</div>
         </div>
       </card>
       <transition mode="out-in" name="el-fade-in">
@@ -269,6 +270,11 @@ watch(() => topics.type, () => {
 .dark {
   .topic-list {
     .topic-left {
+      @media (max-width: 600px) {
+        .type-select-card {
+          flex-direction: column;
+        }
+      }
       .type-select-card {
         background-color: #282828;
 
@@ -295,7 +301,6 @@ watch(() => topics.type, () => {
 
   .topic-left {
     flex: 1;
-    padding-left: 50px;
 
     .add-topic {
       position: fixed;
@@ -343,6 +348,7 @@ watch(() => topics.type, () => {
         cursor: pointer;
       }
     }
+
     .type-select-card {
       transition: all 0.3s;
       background-color: #f5f6f5;

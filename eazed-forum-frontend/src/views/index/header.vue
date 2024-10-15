@@ -1,7 +1,7 @@
 <script setup>
 import {useStore} from "@/store/index.js";
 import {Back, Fold, Message, Operation, Search, Sunny} from "@element-plus/icons-vue";
-import {reactive} from "vue";
+import {computed, reactive, ref, watchEffect} from "vue";
 import {deleteAccessToken, logout} from "@/net/index.js";
 import router from "@/router/index.js";
 import {ElMessage} from "element-plus";
@@ -22,6 +22,21 @@ function userLogout() {
     deleteAccessToken()
   })
 }
+
+const windowWidth = ref(window.innerWidth);
+const isMobile = computed(() => {
+  return windowWidth.value < 1240;
+});
+watchEffect(() => {
+  const updateWindowWidth = () => {
+    windowWidth.value = window.innerWidth;
+  };
+  window.addEventListener('resize', updateWindowWidth);
+  return () => {
+    window.removeEventListener('resize', updateWindowWidth);
+  };
+});
+
 </script>
 
 <template>
@@ -59,7 +74,7 @@ function userLogout() {
       <span class="el-dropdown-link flex-box">
         <el-avatar :src="store.avatarUrl"
                    style="pointer-events: none;"/>
-        <span class="profile">
+        <span v-if="!isMobile" class="profile">
           <span class="username">{{ store.user.username }}</span>
           <span class="email">{{ store.user.email }}</span>
         </span>
