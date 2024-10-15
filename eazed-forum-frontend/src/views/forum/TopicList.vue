@@ -261,7 +261,7 @@ watch(() => topics.type, () => {
 </template>
 
 <style lang="less" scoped>
-@media (max-width: 1100px) {
+@media (max-width: 900px) {
   .topic-right {
     display: none;
   }
@@ -270,7 +270,7 @@ watch(() => topics.type, () => {
 .dark {
   .topic-list {
     .topic-left {
-      @media (max-width: 600px) {
+      @media (max-width: 620px) {
         .type-select-card {
           flex-direction: column;
         }
@@ -300,8 +300,7 @@ watch(() => topics.type, () => {
   min-height: 100vh;
 
   .topic-left {
-    flex: 1;
-
+    width: 100%;
     .add-topic {
       position: fixed;
       bottom: 20px;
