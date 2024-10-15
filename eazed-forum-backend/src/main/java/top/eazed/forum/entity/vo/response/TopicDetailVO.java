@@ -1,5 +1,6 @@
 package top.eazed.forum.entity.vo.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Date;
@@ -10,15 +11,24 @@ public class TopicDetailVO {
     String title;
     String content;
     Integer type;
-    Date Time;
+    Date time;
     User user;
+    Interact interact;
+    Long comments;
+    
+    @Data
+    @AllArgsConstructor
+    public static class Interact {
+        Boolean like;
+        Boolean collect;
+    }
     
     @Data
     public static class User {
         Integer id;
         String username;
         String avatar;
-        String description;
+        String desc;
         Integer gender;
         String qq;
         String wechat;
