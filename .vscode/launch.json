@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-EazedForumBackendApplication<eazed-forum-backend>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "top.eazed.forum.EazedForumBackendApplication",
+      "projectName": "eazed-forum-backend",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}

@@ -1,7 +1,23 @@
 <script setup>
 import {useRoute, useRouter} from "vue-router";
 import {useStore} from "@/store/index.js";
-import {Bell, ChatDotSquare, Location} from "@element-plus/icons-vue";
+import {
+  Bell,
+  ChatDotSquare,
+  Collection,
+  DataLine,
+  Document,
+  Files,
+  Location,
+  Lock,
+  Monitor,
+  Notification,
+  Operation,
+  Position,
+  School,
+  Umbrella,
+  User
+} from "@element-plus/icons-vue";
 
 const router = useRouter();
 const route = useRoute();
@@ -27,107 +43,125 @@ const handleClose = () => {
         @open="handleOpen"
         :default-openeds="['1', '2', '3']"
     >
-      <div class="logo" style="display: flex; align-items: center; justify-content: center;">
-        <el-icon size="20">
-          <Location/>
-        </el-icon>
-        <p v-if="!store.menu.isCollapse" class="logo-lg unselectable">xx论坛</p>
-      </div>
-      <el-sub-menu class="unselectable" index="1">
+      <el-sub-menu index="1">
         <template #title>
-          <el-icon size="20">
+          <el-icon>
             <Location/>
           </el-icon>
           <span><b>校园论坛</b></span>
         </template>
-        <el-menu-item index="/index/">
-          <el-icon size="20">
+        <el-menu-item index="/index">
+          <template #title>
+            <el-icon>
             <ChatDotSquare/>
           </el-icon>
-          <span>帖子广场</span>
+            帖子广场
+          </template>
         </el-menu-item>
-        <el-menu-item index="1-2">
-          <el-icon size="20">
+        <el-menu-item>
+          <template #title>
+            <el-icon>
             <Bell/>
           </el-icon>
-          <span>失物招领</span>
+            失物招领
+          </template>
         </el-menu-item>
-        <el-menu-item index="1-3">
-          <el-icon size="20">
-            <Bell/>
+        <el-menu-item>
+          <template #title>
+            <el-icon>
+              <Notification/>
           </el-icon>
-          <span>校园活动</span>
+            校园活动
+          </template>
         </el-menu-item>
-        <el-menu-item index="1-4">
-          <el-icon size="20">
-            <Bell/>
+        <el-menu-item>
+          <template #title>
+            <el-icon>
+              <Umbrella/>
           </el-icon>
-          <span>表白墙</span>
+            表白墙
+          </template>
         </el-menu-item>
-        <el-menu-item index="1-5">
-          <el-icon size="20">
-            <Bell/>
+        <el-menu-item>
+          <template #title>
+            <el-icon>
+              <School/>
           </el-icon>
-          <span>海文考研</span>
-          <el-tag size="small" style="margin-left: 10px">合作机构</el-tag>
+            海文考研
+            <el-tag size="small" style="margin-left: 10px">合作机构</el-tag>
+          </template>
         </el-menu-item>
       </el-sub-menu>
-      <el-sub-menu class="unselectable" index="2">
+      <el-sub-menu index="2">
         <template #title>
-          <el-icon size="20">
-            <Location/>
+          <el-icon>
+            <Position/>
           </el-icon>
           <span><b>探索与发现</b></span>
         </template>
-        <el-menu-item index="2-1">
-          <el-icon size="20">
-            <Bell/>
-          </el-icon>
-          <span>成绩查询</span>
+        <el-menu-item>
+          <template #title>
+            <el-icon>
+              <Document/>
+            </el-icon>
+            成绩查询
+          </template>
         </el-menu-item>
-        <el-menu-item index="2-2">
-          <el-icon size="20">
-            <Bell/>
-          </el-icon>
-          <span>班级课表</span>
+        <el-menu-item>
+          <template #title>
+            <el-icon>
+              <Files/>
+            </el-icon>
+            班级课程表
+          </template>
         </el-menu-item>
-        <el-menu-item index="2-3">
-          <el-icon size="20">
-            <Bell/>
-          </el-icon>
-          <span>教务通知</span>
+        <el-menu-item>
+          <template #title>
+            <el-icon>
+              <Monitor/>
+            </el-icon>
+            教务通知
+          </template>
         </el-menu-item>
-        <el-menu-item index="2-4">
-          <el-icon size="20">
-            <Bell/>
-          </el-icon>
-          <span>在线图书馆</span>
+        <el-menu-item>
+          <template #title>
+            <el-icon>
+              <Collection/>
+            </el-icon>
+            在线图书馆
+          </template>
         </el-menu-item>
-        <el-menu-item index="2-5">
-          <el-icon size="20">
-            <Bell/>
-          </el-icon>
-          <span>预约自习室</span>
+        <el-menu-item>
+          <template #title>
+            <el-icon>
+              <DataLine/>
+            </el-icon>
+            预约教室
+          </template>
         </el-menu-item>
       </el-sub-menu>
-      <el-sub-menu class="unselectable" index="3">
+      <el-sub-menu index="3">
         <template #title>
-          <el-icon size="20">
-            <Location/>
+          <el-icon>
+            <Operation/>
           </el-icon>
           <span><b>个人设置</b></span>
         </template>
         <el-menu-item index="/index/user-setting">
-          <el-icon size="20">
-            <Bell/>
-          </el-icon>
-          <span>个人信息</span>
+          <template #title>
+            <el-icon>
+              <User/>
+            </el-icon>
+            个人信息设置
+          </template>
         </el-menu-item>
         <el-menu-item index="/index/privacy-setting">
-          <el-icon size="20">
-            <Bell/>
-          </el-icon>
-          <span>账号安全</span>
+          <template #title>
+            <el-icon>
+              <Lock/>
+            </el-icon>
+            账号安全设置
+          </template>
         </el-menu-item>
       </el-sub-menu>
     </el-menu>
