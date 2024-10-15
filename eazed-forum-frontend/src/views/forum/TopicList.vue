@@ -15,6 +15,7 @@ import {
   Link,
   Microphone,
   Picture,
+  Plus,
   Star
 } from "@element-plus/icons-vue";
 import Weather from "@/components/Weather.vue";
@@ -193,7 +194,11 @@ watch(() => topics.type, () => {
           </div>
         </div>
       </transition>
-
+      <div class="add-topic" @click="editor = true">
+        <el-icon>
+          <Plus/>
+        </el-icon>
+      </div>
     </div>
     <div class="topic-right">
       <div class="topic-right-content">
@@ -255,6 +260,12 @@ watch(() => topics.type, () => {
 </template>
 
 <style lang="less" scoped>
+@media (max-width: 1100px) {
+  .topic-right {
+    display: none;
+  }
+}
+
 .dark {
   .topic-list {
     .topic-left {
@@ -277,13 +288,35 @@ watch(() => topics.type, () => {
 .topic-list {
 
   display: flex;
-  margin: 20px auto;
+  margin: 20px;
   gap: 20px;
-  max-width: 900px;
+  max-width: 1000px;
   min-height: 100vh;
 
   .topic-left {
     flex: 1;
+    padding-left: 50px;
+
+    .add-topic {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 18px;
+      color: var(--el-color-primary);
+      text-align: center;
+      line-height: 45px;
+      background: var(--el-bg-color-overlay);
+      box-shadow: var(--el-box-shadow-lighter);
+
+      &:hover {
+        background: var(--el-border-color-extra-light);
+        cursor: pointer;
+      }
+    }
+
     .top-topic {
       display: flex;
 

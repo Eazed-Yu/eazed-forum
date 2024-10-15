@@ -31,7 +31,7 @@ function userLogout() {
         <Fold/>
       </el-icon>
     </div>
-    <div class="header-center" style="width: 100%;max-width: 500px">
+    <div class="header-center">
       <el-input v-model="searchInput.text" placeholder="搜索...">
         <template #prefix>
           <el-icon>
@@ -93,6 +93,14 @@ function userLogout() {
 
 <style lang="less" scoped>
 
+@media (max-width: 1240px) {
+  .header-container {
+    .header-left {
+      display: none;
+    }
+  }
+}
+
 
 .flex-box {
   display: flex;
@@ -126,9 +134,14 @@ function userLogout() {
     }
   }
 
+  .header-center {
+    padding: 0 20px;
+    align-self: center;
+  }
+
   .header-right {
+    flex-shrink: 0;
     height: 100%;
-    margin-right: 20px;
     display: flex;
     align-items: center;
 

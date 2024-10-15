@@ -23,11 +23,13 @@ get('api/user/info', (data) => {
         </el-header>
         <el-main class="main-content-page">
           <el-scrollbar>
+            <div style="display: flex;justify-content: center;padding: 0">
             <RouterView v-slot="{ Component }">
               <transition mode="out-in" name="el-fade-in-linear">
                 <component :is="Component"/>
               </transition>
             </RouterView>
+            </div>
           </el-scrollbar>
         </el-main>
       </el-container>
@@ -36,6 +38,7 @@ get('api/user/info', (data) => {
 </template>
 <style lang="less" scoped>
 .main-content {
+
   height: 100%;
 
   .main-content-header {

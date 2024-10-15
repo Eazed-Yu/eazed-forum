@@ -1,5 +1,5 @@
 <script setup>
-import {useRoute, useRouter} from "vue-router";
+import {useRoute} from "vue-router";
 import {useStore} from "@/store/index.js";
 import {
   Bell,
@@ -18,29 +18,38 @@ import {
   Umbrella,
   User
 } from "@element-plus/icons-vue";
+import {computed, ref, watchEffect} from "vue";
 
-const router = useRouter();
+const windowWidth = ref(window.innerWidth);
 const route = useRoute();
 const store = useStore();
 
-const handleOpen = () => {
+const isMobile = computed(() => {
+  return windowWidth.value < 1240;
+});
 
-}
-const handleClose = () => {
+watchEffect(() => {
+  const updateWindowWidth = () => {
+    windowWidth.value = window.innerWidth;
+  };
+  window.addEventListener('resize', updateWindowWidth);
+  return () => {
+    window.removeEventListener('resize', updateWindowWidth);
+  };
+});
 
-}
 
 </script>
 
 <template>
-  <el-scrollbar>
+  <el-scrollbar style="flex-shrink: 0">
     <el-menu
-        :collapse="store.menu.isCollapse"
+        :collapse="store.menu.isCollapse|| isMobile"
         :default-active="route.path"
         class="aside-container unselectable"
         router
-        @close="handleClose"
-        @open="handleOpen"
+        @close=""
+        @open=""
         :default-openeds="['1', '2', '3']"
     >
       <el-sub-menu index="1">
@@ -191,6 +200,5 @@ const handleClose = () => {
 .aside-container:not(.el-menu--collapse) {
   width: 220px;
 }
-
 
 </style>

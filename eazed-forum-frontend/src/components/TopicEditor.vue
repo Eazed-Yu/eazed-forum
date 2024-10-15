@@ -52,7 +52,7 @@ const editor = reactive({
   text: '',
   loading: false,
 })
-initEditor()
+
 function initEditor() {
   if (props.defaultText)
     editor.text = new Delta(JSON.parse(props.defaultText))
@@ -182,6 +182,7 @@ function submitTopic() {
                  direction="btt"
                  size="95vh"
                  @close="emit('close')"
+                 @open="initEditor"
       >
         <template #header>
           <div>

@@ -38,4 +38,5 @@ get('/api/forum/types', data => {
 
 <style lang="less" scoped>
 
+
 </style>
