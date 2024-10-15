@@ -1,7 +1,7 @@
 <script setup>
 import {Document} from "@element-plus/icons-vue";
 import {computed, reactive, ref} from "vue";
-import {Quill, QuillEditor} from "@vueup/vue-quill";
+import {Delta, Quill, QuillEditor} from "@vueup/vue-quill";
 import ImageResize from "quill-image-resize-vue";
 import {ImageExtend, QuillWatch} from "quill-image-super-solution-module";
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
@@ -11,9 +11,38 @@ import {ElMessage} from "element-plus";
 import ColorDot from "@/components/ColorDot.vue";
 import {useStore} from "@/store/index.js";
 
-defineProps({
-  show: Boolean
-})
+const props = defineProps({
+  show: Boolean,
+  defaultTitle: {
+    default: '',
+    type: String
+  },
+  defaultText: {
+    default: '',
+    type: String
+  },
+  defaultType: {
+    default: null,
+    type: Number
+  },
+  submitButton: {
+    default: '立即发表主题',
+    type: String
+  },
+  submit: {
+    default: (editor, success) => {
+      post('/api/forum/create-topic', {
+        type: editor.type.id,
+        title: editor.title,
+        content: editor.text
+      }, () => {
+        ElMessage.success("帖子发表成功！")
+        success()
+      })
+    },
+    type: Function
+  }
+});
 const store = useStore()
 const refEditor = ref()
 
@@ -23,13 +52,23 @@ const editor = reactive({
   text: '',
   loading: false,
 })
-
+initEditor()
 function initEditor() {
-  refEditor.value.setContents('', 'user')
-  editor.type = null
-  editor.title = ''
+  if (props.defaultText)
+    editor.text = new Delta(JSON.parse(props.defaultText))
+  else
+    refEditor.value.setContents('', 'user')
+  editor.title = props.defaultTitle
+  editor.type = findTypeById(props.defaultType)
 }
 
+
+function findTypeById(id) {
+  for (let type of store.forum.types) {
+    if (type.id === id)
+      return type
+  }
+}
 
 const emit = defineEmits(['close', 'success'])
 

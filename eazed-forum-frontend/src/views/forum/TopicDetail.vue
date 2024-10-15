@@ -174,7 +174,7 @@ function deleteComment(id) {
             </div>
             <el-divider style="margin: 10px 0"/>
             <div style="text-align: left;margin: 0 5px">
-              <div class="desc">微信号: {{ item.user.wx || '已隐藏或未填写' }}</div>
+              <div class="desc">微信号: {{ item.user.wechat || '已隐藏或未填写' }}</div>
               <div class="desc">QQ号: {{ item.user.qq || '已隐藏或未填写' }}</div>
               <div class="desc">手机号: {{ item.user.phone || '已隐藏或未填写' }}</div>
             </div>
