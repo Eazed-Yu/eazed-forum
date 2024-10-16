@@ -87,7 +87,7 @@ function login(username, password, remember, success, failure = defaultFailure) 
 }
 
 function getAccessHeader() {
-    var token = takeAccessToken();
+    let token = takeAccessToken();
     if (token) {
         return {
             'Authorization': `Bearer ${token}`
@@ -116,7 +116,6 @@ function logout(success, failure = defaultFailure) {
 function unauthorized() {
     const token = takeAccessToken()
     return !token;
-
 }
 
 export {login, logout, get, post, unauthorized, deleteAccessToken, accessHeader}

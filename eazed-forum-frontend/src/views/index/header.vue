@@ -69,7 +69,7 @@ watchEffect(() => {
     </div>
     <div class="header-right">
       <div class="theme unselectable" @click="toggleTheme">
-        <span class="el-switch__core">
+        <span class="switch">
           <el-icon :class="`icon ${dark ? 'dark' : 'light'}`">
             <component :is="dark ? Moon : Sunny"/>
           </el-icon>
@@ -170,21 +170,19 @@ watchEffect(() => {
       flex-direction: column;
 
 
-      .el-switch__core {
-        display: inline-flex;
-        position: relative;
+      .switch {
+        display: flex;
         align-items: center;
         min-width: 40px;
         height: 20px;
         border: 1px solid var(--el-border-color);
-        outline: none;
         border-radius: 10px;
         box-sizing: border-box;
-        background: var(--el-switch-off-color);
         cursor: pointer;
 
         .icon {
-          transition: transform 0.5s ease;
+          justify-self: center;
+          align-self: center;
         }
 
         .icon.dark {
