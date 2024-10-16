@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 import App from './App.vue'
 import './style.css'
 import router from "@/router";
@@ -8,8 +8,8 @@ import {createPinia} from "pinia";
 import ElementPlus from 'element-plus'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
-axios.defaults.baseURL = 'http://localhost:8080'
 
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL
 const app = createApp(App)
 
 app.use(ElementPlus, {
