@@ -4,17 +4,20 @@ import Header from "@/views/index/header.vue"
 
 import {useStore} from "@/store/index.js";
 import {get} from "@/net/index.js"
+import {ref} from "vue";
 
 const store = useStore()
+const loading = ref(true)
 
 get('api/user/info', (data) => {
   store.user = data
+  loading.value = false
 })
 
 </script>
 
 <template>
-  <div class="main-content" element-loading-text="正在进入，请稍后...">
+  <div v-loading="loading" class="main-content" element-loading-text="正在进入，请稍后...">
     <el-container style="height: 100vh;width: 100vw">
       <Aside/>
       <el-container>

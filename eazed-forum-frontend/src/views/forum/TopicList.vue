@@ -39,6 +39,8 @@ const weather = reactive({
   hourly: [],
   success: false
 })
+
+const loading = ref(true)
 const editor = ref(false);
 const topics = reactive({
   list: [],
@@ -83,10 +85,12 @@ function updateList() {
       topics.end = true
       ElMessage.info("没有更多帖子了")
     }
+    loading.value = false
   })
 }
 
 function initList() {
+  loading.value = true
   topics.page = 0;
   topics.list = []
   topics.end = false
@@ -100,7 +104,7 @@ watch(() => topics.type, () => {
 </script>
 
 <template>
-  <div class="topic-list">
+  <div v-loading="loading" class="topic-list">
     <div class="topic-left">
       <card>
         <div class="create-topic unselectable" @click="editor = true">

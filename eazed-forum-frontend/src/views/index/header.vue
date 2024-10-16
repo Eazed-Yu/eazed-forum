@@ -1,11 +1,13 @@
 <script setup>
 import {useStore} from "@/store/index.js";
-import {Back, Fold, Message, Operation, Search, Sunny} from "@element-plus/icons-vue";
+import {Back, Fold, Message, Moon, Operation, Search, Sunny} from "@element-plus/icons-vue";
 import {computed, reactive, ref, watchEffect} from "vue";
 import {deleteAccessToken, logout} from "@/net/index.js";
 import router from "@/router/index.js";
 import {ElMessage} from "element-plus";
 import {toggleTheme} from "@/theme";
+import {useDark} from "@vueuse/core";
+
 
 const store = useStore();
 
@@ -13,6 +15,8 @@ const searchInput = reactive({
   type: '1',
   text: ''
 })
+
+const dark = useDark()
 
 function userLogout() {
   logout(() => {
@@ -65,20 +69,20 @@ watchEffect(() => {
     </div>
     <div class="header-right">
       <div class="theme unselectable" @click="toggleTheme">
-        <el-icon size="30" style="align-self: center">
-          <Sunny/>
-        </el-icon>
-        <div style="font-size: 10px">切换主题</div>
+        <span class="el-switch__core">
+          <el-icon :class="`icon ${dark ? 'dark' : 'light'}`">
+            <component :is="dark ? Moon : Sunny"/>
+          </el-icon>
+        </span>
       </div>
       <el-dropdown class="unselectable">
-      <span class="el-dropdown-link flex-box">
-        <el-avatar :src="store.avatarUrl"
-                   style="pointer-events: none;"/>
-        <span v-if="!isMobile" class="profile">
-          <span class="username">{{ store.user.username }}</span>
-          <span class="email">{{ store.user.email }}</span>
+        <span class="el-dropdown-link flex-box">
+          <el-avatar :src="store.avatarUrl" style="pointer-events: none;"/>
+          <span v-if="!isMobile" class="profile">
+            <span class="username">{{ store.user.username }}</span>
+            <span class="email">{{ store.user.email }}</span>
+          </span>
         </span>
-      </span>
         <template #dropdown>
           <el-dropdown-menu class="unselectable">
             <el-dropdown-item>
@@ -107,7 +111,6 @@ watchEffect(() => {
 </template>
 
 <style lang="less" scoped>
-
 @media (max-width: 1240px) {
   .header-container {
     .header-left {
@@ -165,11 +168,36 @@ watchEffect(() => {
       justify-content: center;
       display: flex;
       flex-direction: column;
+
+
+      .el-switch__core {
+        display: inline-flex;
+        position: relative;
+        align-items: center;
+        min-width: 40px;
+        height: 20px;
+        border: 1px solid var(--el-border-color);
+        outline: none;
+        border-radius: 10px;
+        box-sizing: border-box;
+        background: var(--el-switch-off-color);
+        cursor: pointer;
+
+        .icon {
+          transition: transform 0.5s ease;
+        }
+
+        .icon.dark {
+          transform: translateX(20px);
+        }
+      }
+
     }
 
     .theme:hover {
       cursor: pointer;
     }
+
     .el-dropdown-link {
       display: flex;
       align-items: center;
@@ -199,11 +227,11 @@ watchEffect(() => {
         }
       }
     }
+
     .el-dropdown-link:hover {
       cursor: pointer;
     }
 
   }
 }
-
 </style>
