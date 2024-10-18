@@ -5,8 +5,7 @@
 <template>
   <div style="width: 100vw;height: 100vh;overflow: hidden;display: flex">
     <div class="left-card">
-      <el-image class="image" fit="cover" src="/welcome.jpg"
-                style=""/>
+      <el-image class="image" fit="cover" src="/welcome.jpg"/>
       <div class="welcome-title">
         <div style="font-size: 50px;font-weight: bold">欢迎来到我们的网站</div>
         <div style="margin-top: 10px">这是一个基于Vue3.0的前端项目</div>

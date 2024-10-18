@@ -170,7 +170,6 @@ function submitTopic() {
     ElMessage.success('发表成功')
     initEditor()
     emit('success')
-
   })
 }
 </script>

@@ -214,10 +214,8 @@ const description = ref('')
 }
 
 .settings-right {
-
   width: 280px;
   margin: 20px;
-
   .user-name {
     font-size: 20px;
     font-weight: bold;

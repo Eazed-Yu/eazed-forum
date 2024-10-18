@@ -157,31 +157,6 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, TopicDTO> impleme
         vo.setComments(commentMapper.selectCount(Wrappers.<TopicComment>query().eq("tid", tid)));
         return vo;
     }
-    /**
-     * 根据隐私设置填充目标对象的用户详细信息。
-     *
-     * @param <T>    目标对象的类型。
-     * @param target 要填充用户详细信息的目标对象。
-     * @param uid    要获取详细信息的用户ID。
-     * @return 填充了用户详细信息的目标对象。
-     */
-    private <T> T fillUerDetailsByPrivacy(T target, int uid) {
-        // 根据用户ID获取账户详细信息
-        AccountDetailsDTO accountDetailsDTO = accountDetailsMapper.selectById(uid);
-        // 根据用户ID获取账户信息
-        AccountDTO accountDTO = accountMapper.selectById(uid);
-        // 根据用户ID获取账户隐私设置
-        AccountPrivacyDTO accountPrivacyDTO = accountPrivacyMapper.selectById(uid);
-        // 获取根据隐私设置要忽略的字段
-        String[] ignores = accountPrivacyDTO.hiddenFields();
-        // 将accountDTO的属性复制到target，忽略指定的字段
-        BeanUtils.copyProperties(accountDTO, target, ignores);
-        // 将accountDetailsDTO的属性复制到target，忽略指定的字段
-        BeanUtils.copyProperties(accountDetailsDTO, target, ignores);
-        // 返回填充了用户详细信息的目标对象
-        return target;
-    }
-    
     private <T> T fillUserDetailsByPrivacy(T target, int uid) {
         AccountDetailsDTO details = accountDetailsMapper.selectById(uid);
         AccountDTO account = accountMapper.selectById(uid);
