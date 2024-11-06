@@ -3,7 +3,7 @@ import {useRoute} from "vue-router";
 import {get, post} from "@/net";
 import {reactive, ref} from "vue";
 import {ArrowLeft, ChatSquare, CircleCheck, Delete, EditPen, Female, Male, Plus, Star} from "@element-plus/icons-vue";
-import {QuillDeltaToHtmlConverter} from 'quill-delta-to-html';
+import {DeltaToHtmlConverter} from 'new-text-editor-package';
 import Card from "@/components/Card.vue";
 import router from "@/router";
 import TopicTag from "@/components/TopicTag.vue";
@@ -42,7 +42,7 @@ init()
 
 function convertToHtml(content) {
   const ops = JSON.parse(content).ops
-  const converter = new QuillDeltaToHtmlConverter(ops, {inlineStyles: true});
+  const converter = new DeltaToHtmlConverter(ops, {inlineStyles: true});
   return converter.convert();
 }
 

@@ -1,6 +1,6 @@
 <script setup>
-import {Delta, QuillEditor} from "@vueup/vue-quill";
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import {Delta, QuillEditor} from "new-text-editor-package";
+import 'new-text-editor-package/dist/new-text-editor-package.snow.css';
 import {ref} from "vue";
 import {post} from "@/net";
 import {ElMessage} from "element-plus";
