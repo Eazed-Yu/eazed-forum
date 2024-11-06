@@ -1,8 +1,10 @@
 <script setup>
 import {Document} from "@element-plus/icons-vue";
 import {computed, reactive, ref} from "vue";
-import { EditorContent, useEditor } from "@tiptap/vue-3";
-import StarterKit from "@tiptap/starter-kit";
+import {Delta, Quill, QuillEditor} from "new-text-editor-package";
+import ImageResize from "new-image-resize-module";
+import {ImageExtend, QuillWatch} from "new-image-super-solution-module";
+import 'new-text-editor-package/dist/new-text-editor-package.snow.css'
 import axios from "axios";
 import {accessHeader, post} from "@/net/index.js";
 import {ElMessage} from "element-plus";
@@ -51,16 +53,11 @@ const editor = reactive({
   loading: false,
 })
 
-const tiptapEditor = useEditor({
-  extensions: [StarterKit],
-  content: "",
-});
-
 function initEditor() {
   if (props.defaultText)
-    tiptapEditor.commands.setContent(props.defaultText);
+    editor.text = new Delta(JSON.parse(props.defaultText))
   else
-    tiptapEditor.commands.clearContent();
+    refEditor.value.setContents('', 'user')
   editor.title = props.defaultTitle
   editor.type = findTypeById(props.defaultType)
 }
@@ -77,14 +74,76 @@ const emit = defineEmits(['close', 'success'])
 
 
 function deltaToText(delta) {
-  const div = document.createElement("div");
-  div.innerHTML = delta;
-  return div.textContent || div.innerText || "";
+  if (!delta) return ''
+  let str = ''
+  delta.ops.forEach(item => {
+    if (item.insert) {
+      if (typeof item.insert === 'string') {
+        str += item.insert
+      } else {
+      }
+    }
+  })
+  return str.replace(/\s/g, '')
 }
 
 const contentLength = computed(() => {
-  return deltaToText(tiptapEditor.getHTML()).length;
+  return deltaToText(editor.text).length
 })
+
+Quill.register('modules/imageResize', ImageResize);
+Quill.register('modules/ImageExtend', ImageExtend);
+const editorOption = {
+  modules: {
+    toolbar: {
+      container: [
+        "bold", "italic", "underline", "strike", "clean",
+        {color: []}, {'background': []},
+        {size: ["small", false, "large", "huge"]},
+        {header: [1, 2, 3, 4, 5, 6, false]}, {list: "ordered"},
+        {list: "bullet"}, {align: []},
+        "blockquote", "code-block", "link", "image",
+        {indent: '-1'}, {indent: '+1'}
+      ],
+      handlers: {
+        'image': function () {
+          QuillWatch.emit(this.quill.id)
+        }
+      }
+    },
+    imageResize: {
+      modules: ['Resize', 'DisplaySize', 'Toolbar']
+    },
+    ImageExtend: {
+      action: axios.defaults.baseURL + '/api/image/cache',
+      name: 'file',
+      size: 5,
+      loading: true,
+      accept: 'image/png, image/jpeg',
+      response: (response) => {
+        if (response.data) {
+          return axios.defaults.baseURL + '/images' + response.data
+        } else {
+          return null
+        }
+      },
+      methods: 'POST',
+      headers: xhr => {
+        xhr.setRequestHeader('Authorization', accessHeader().Authorization)
+      },
+      start: () => editor.loading = true,
+      success: () => {
+        ElMessage.success('上传成功')
+        editor.loading = false
+      },
+      error: () => {
+        ElMessage.error('上传失败')
+        editor.loading = false
+      }
+    }
+  }
+}
+
 
 function submitTopic() {
   if (!editor.type) {
@@ -106,7 +165,7 @@ function submitTopic() {
   post('/api/forum/create-topic', {
     type: editor.type.id,
     title: editor.title,
-    content: tiptapEditor.getHTML()
+    content: editor.text
   }, () => {
     ElMessage.success('发表成功')
     initEditor()
@@ -152,7 +211,12 @@ function submitTopic() {
         <div element-loading-text="正在上传图片..."
              style="display: flex;flex-direction: column;height: 65vh;border-radius: 5px">
           <div style="margin-top: 20px;flex: 1;overflow: hidden">
-            <EditorContent :editor="tiptapEditor" />
+            <quill-editor v-model:content="editor.text" placeholder="今天想分享什么呢？"
+                          :options="editorOption"
+                          content-type="delta"
+                          style="height: calc(100% - 45px)"
+                          ref="refEditor"
+            />
           </div>
           <div style="display: flex;justify-content: space-between;bottom: 10px">
             <div style="color: var(--el-text-color-secondary);font-size: 14px">
@@ -182,4 +246,18 @@ function submitTopic() {
   margin: 0;
 }
 
+
+:deep(.ql-toolbar) {
+  border-radius: 5px 5px 0 0;
+  border-color: var(--el-border-color);
+}
+
+:deep(.ql-container) {
+  border-radius: 0 0 5px 5px;
+  border-color: var(--el-border-color);
+}
+
+:deep(.ql-editor.ql-blank::before) {
+  color: var(--el-text-color-placeholder);
+}
 </style>
