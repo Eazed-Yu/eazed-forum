@@ -4,7 +4,7 @@ spring:
     username: 15327385997@163.com
     password: FHGJMJIIDBIMQYVD
   rabbitmq:
-    host: 192.168.227.132
+    host: 192.168.163.128
     username: admin
     password: admin
     virtual-host: /eazed-forum
@@ -16,12 +16,12 @@ spring:
     username: root
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.227.132:3306/eazed_forum
+    url: jdbc:mysql://192.168.163.128/eazed_forum
   data:
     redis:
-      url: "redis://192.168.227.132:6379"
+      url: "redis://192.168.163.128:6379"
 minio:
-  endpoint: "http://192.168.227.132:9000"
+  endpoint: "http://192.168.163.128:9000"
   username: minio
   password: password
 qweather:

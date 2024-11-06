@@ -1,10 +1,10 @@
 <script setup>
 import {Document} from "@element-plus/icons-vue";
 import {computed, reactive, ref} from "vue";
-import {Delta, Quill, QuillEditor} from "new-text-editor-package";
-import ImageResize from "new-image-resize-module";
-import {ImageExtend, QuillWatch} from "new-image-super-solution-module";
-import 'new-text-editor-package/dist/new-text-editor-package.snow.css'
+import {Delta, Quill, QuillEditor} from "@vueup/vue-quill";
+import ImageResize from "quill-image-resize-vue";
+import {ImageExtend, QuillWatch} from "quill-image-super-solution-module";
+import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import axios from "axios";
 import {accessHeader, post} from "@/net/index.js";
 import {ElMessage} from "element-plus";
