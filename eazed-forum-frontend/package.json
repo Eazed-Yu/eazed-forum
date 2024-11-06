@@ -10,15 +10,13 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
-    "@vueup/vue-quill": "^1.2.0",
+    "@tiptap/vue-3": "^2.0.0",
+    "@tiptap/starter-kit": "^2.0.0",
     "@vueuse/core": "^11.1.0",
     "axios": "^1.7.7",
     "eazed-forum-frontend": "file:",
     "element-plus": "^2.8.3",
     "pinia": "^2.2.2",
-    "quill-delta-to-html": "^0.12.1",
-    "quill-image-resize-vue": "^1.0.4",
-    "quill-image-super-solution-module": "^2.0.1",
     "vue": "^3.4.29",
     "vue-infinite-scroll": "^2.0.2",
     "vue-router": "^4.4.5"
