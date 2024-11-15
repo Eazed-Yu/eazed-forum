@@ -19,4 +19,5 @@ public class AccountDetailsDTO implements BaseData {
     String qq;
     String wechat;
     String description;
+    
 }
