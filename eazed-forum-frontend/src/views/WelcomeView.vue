@@ -25,7 +25,11 @@
 </template>
 
 <style lang="less" scoped>
-
+.left-card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
 
 .welcome-title {
   position: absolute;
@@ -37,9 +41,7 @@
 }
 
 .right-card {
-  min-width: 400px;
-  flex: 1;
-  z-index: 1;
+  width: 600px;
   background-color: var(--el-bg-color);
 }
 

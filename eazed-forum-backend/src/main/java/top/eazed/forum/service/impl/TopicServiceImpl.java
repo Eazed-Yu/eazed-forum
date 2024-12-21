@@ -86,7 +86,7 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, TopicDTO> impleme
             return "类型不存在";
         }
         String key = Const.FORUM_TOPIC_CREATE_COUNTER + uid;
-        if (!flowUtils.limitPeriodCounterCheck(key, 10, 3600)) {
+        if (!flowUtils.limitPeriodCounterCheck(key, 10000, 3600)) {
             return "操作过于频繁";
         }
         TopicDTO topic = new TopicDTO();
@@ -94,6 +94,15 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, TopicDTO> impleme
         topic.setContent(vo.getContent().toJSONString());
         topic.setUid(uid);
         topic.setTime(new Date());
+        StringBuffer stringBuffer = new StringBuffer();
+        JSONArray ops = vo.getContent().getJSONArray("ops");
+        for (Object op : ops) {
+            JSONObject object = JSONObject.from(op);
+            if (object.containsKey("insert")) {
+                stringBuffer.append(object.getString("insert"));
+            }
+        }
+        topic.setText(stringBuffer.toString());
         if (this.save(topic)) {
             cacheUtils.deleteCachePattern(Const.FORUM_TOPIC_PREVIEW_CACHE + "*");
             return null;
@@ -279,7 +288,7 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, TopicDTO> impleme
         if (!textLimitCheck(JSONObject.parseObject(vo.getContent()), 2000))
             return "评论内容太多，发表失败！";
         String key = Const.FORUM_TOPIC_COMMENT_COUNTER + uid;
-        if (!flowUtils.limitPeriodCounterCheck(key, 2, 60))
+        if (!flowUtils.limitPeriodCounterCheck(key, 20000, 60))
             return "发表评论频繁，请稍后再试！";
         TopicComment comment = new TopicComment();
         comment.setUid(uid);

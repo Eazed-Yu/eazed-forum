@@ -2,7 +2,8 @@ spring:
   mail:
     host: smtp.163.com
     username: 15327385997@163.com
-    password: FHGJMJIIDBIMQYVD
+    password: PXqy74cKdGa6xWHa
+    port: 587
   rabbitmq:
     host: 47.96.172.74
     username: rabbitmq
@@ -20,7 +21,8 @@ spring:
     url: jdbc:mysql://47.96.172.74:7564/eazed_forums
   data:
     redis:
-      url: redis://47.96.172.74:46546
+      host: 47.96.172.74
+      port: 46546
       password: redis_bBspZD
 minio:
   endpoint: http://47.96.172.74:5647
