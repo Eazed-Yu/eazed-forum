@@ -9,4 +9,5 @@ public class ChangePasswordVO {
     String origin_password;
     @Length(min = 6, max = 20, message = "密码长度必须在6-20之间")
     String Password;
+    
 }

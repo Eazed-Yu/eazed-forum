@@ -19,7 +19,8 @@ import java.util.Date;
 public class AccountDTO implements BaseData {
     @TableId(type = IdType.AUTO) // 配置主键自增
     Integer id;
-
+    
+    
     String username;
 
     String password;

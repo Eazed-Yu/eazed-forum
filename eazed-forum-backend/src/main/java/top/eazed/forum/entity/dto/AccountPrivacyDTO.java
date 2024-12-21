@@ -18,6 +18,7 @@ public class AccountPrivacyDTO implements BaseData {
     boolean phone = false;
     boolean email = false;
     boolean wechat = false;
+    
     boolean qq = false;
     boolean gender = false;
     

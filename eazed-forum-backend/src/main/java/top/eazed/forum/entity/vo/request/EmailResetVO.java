@@ -11,4 +11,5 @@ public class EmailResetVO {
     private String code;
     @Length(min = 6, max = 20)
     private String password;
+    
 }

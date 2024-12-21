@@ -18,5 +18,6 @@ public class AccountDetailsVO implements BaseData {
     String phone;
     String qq;
     String wechat;
+    
     String description;
 }

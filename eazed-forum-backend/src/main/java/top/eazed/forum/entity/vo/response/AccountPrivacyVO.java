@@ -8,5 +8,6 @@ public class AccountPrivacyVO {
     boolean email;
     boolean wechat;
     boolean qq;
+    
     boolean gender;
 }

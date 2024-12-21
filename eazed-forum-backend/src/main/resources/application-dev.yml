@@ -4,25 +4,27 @@ spring:
     username: 15327385997@163.com
     password: FHGJMJIIDBIMQYVD
   rabbitmq:
-    host: 192.168.163.128
-    username: admin
-    password: admin
+    host: 47.96.172.74
+    username: rabbitmq
+    password: rabbitmq_AKUT
     virtual-host: /eazed-forum
+    port: 5236
   security:
     jwt:
       key: my-secret
       expire: 86400000
   datasource:
     username: root
-    password: 1234
+    password: mysql_ECFzTG
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.163.128/eazed_forum
+    url: jdbc:mysql://47.96.172.74:7564/eazed_forums
   data:
     redis:
-      url: "redis://192.168.163.128:6379"
+      url: redis://47.96.172.74:46546
+      password: redis_bBspZD
 minio:
-  endpoint: "http://192.168.163.128:9000"
-  username: minio
-  password: password
+  endpoint: http://47.96.172.74:5647
+  username: minio_cmYc3N
+  password: minio_Sjmama
 qweather:
   key: 63e599dabe1a452a99846f6b21b060e0
